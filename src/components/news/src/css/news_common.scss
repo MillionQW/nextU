@@ -1,0 +1,37 @@
+@import '../../../../CSS/common.scss';
+@import '../../../../CSS/colors.scss';
+h3 {
+    width: 95%;
+    margin: 0 auto;
+    border-bottom: 1px solid $base_green;
+    font-weight: normal;
+    color: $base_green;
+}
+
+.news_item {
+    box-sizing: border-box;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 10px 5px;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 15px 1px #ccc;
+}
+
+.newsTitle, .newsContent {
+    color: $base_black;
+}
+
+.newsTime {
+    float: right;
+}
+
+.newsTime {
+    color: #999;
+    font-size: 12px;
+}
+
+.newsContent {
+    text-indent: 2em;
+    font-size: 14px;
+}

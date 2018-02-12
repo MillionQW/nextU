@@ -1,0 +1,267 @@
+<template>
+    <section class="live-index">
+        <div  class="prism-player" id="J_prismPlayer" style=""></div>
+        <div class="program-wrap">
+            <div class="tabs">
+                <div @click="send" class="parade-btn">
+                    <span>直播预告</span>
+                </div>
+                <div class="review-btn">
+                    <span>历史回顾</span>
+                </div>
+            </div>
+            <div class="program-list">
+                <ul class="live-parade">
+                    <li class="live-item"  v-for="(item, index) in this.liveList">
+                        <div class="inner-item">
+                            <span class="start-time">{{item.start}}</span>
+                            <a href="" class="live-title">《{{item.title}}》</a>
+                            <div class="live-cover" ><img :src="item.imgUrl" alt=""></div>
+                            <span class="play-btn">抢先看</span>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="live-review" v-show="">
+                    <li class="live-item"></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</template>
+<script>
+import Vue from 'vue'
+import {mapGetters} from 'vuex'
+
+
+export default {
+    data() {
+        return {
+            liveList: ''
+        }
+        
+    },
+    mounted() {
+        // 初始化播放器
+        var player = new Aliplayer({
+            id: "J_prismPlayer",
+                 autoplay: true,
+                 isLive:true,
+                 playsinline:true,
+                 width:"792px",
+                 height:"600px",
+                 controlBarVisibility:"always",
+                 useH5Prism:false,
+                 useFlashPrism:true,
+                 source:"http://live.liuliuliuman.top/nextu/livestream.flv",
+                 cover:"",
+                 skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
+                        {"name":"H5Loading","align":"cc"},
+                        {"name":"errorDisplay","align":"tlabs","x":0,"y":0},
+                        {"name":"infoDisplay","align":"cc"},
+                        {"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
+                        {"name":"playButton","align":"tl","x":15,"y":26},
+                        {"name":"fullScreenButton","align":"tr","x":20,"y":25},
+                        {"name":"timeDisplay","align":"tl","x":10,"y":24},
+                        {"name":"setButton","align":"tr","x":20,"y":25},
+                        {"name":"streamButton","align":"tr","x":20,"y":23},
+                        {"name":"volume","align":"tr","x":20,"y":25}]},
+                        {"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6},
+                        {"name":"fullZoom","align":"cc"},
+                        {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
+                        {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]}]
+                 },function(player){
+                    console.log("播放器创建了。");
+                  }
+            );
+
+        this.$store.dispatch('getProgramList', 'https://easy-mock.com/mock/5a157b9e24f7a9469678dc2a/example/liveindex#!method=get')
+            .then(data => {
+                for (var s in data) {
+                    data[s].start = data[s].start.slice(10,16)
+                }
+                console.log(data)
+                this.liveList = data
+            }, error => {
+                console.error("获取失败")
+            })
+        
+    },
+    computed: {
+        ...mapGetters([
+                'getLiveList'
+            ]),
+        getList() {
+            return this.$store.getters.getLiveList
+        }
+    },
+    methods: {
+        send() {
+            console.log(this.$store.getters)
+        }
+    }
+    
+}
+</script>
+<style lang="scss" scoped>
+@import '../../CSS/colors.scss';
+@import '../../CSS/common.scss';
+
+.live-index {
+    width: 1214px;
+    min-width: 1213px;
+    margin: 0 auto;
+    margin-bottom: 80px;
+    background: #fff;
+    overflow: hidden;
+
+    .prism-player {
+        position: relative;
+        float: left;
+        z-index: 2;
+    }
+
+    .program-wrap {
+        float: right;
+        width: 413px;
+        background: #fff;
+        overflow: hidden;
+    }
+}
+
+//预告回顾栏
+.tabs {
+    border-top: 1px solid $body_bg;
+    border-bottom: 1px solid $liveIndex_green;
+    overflow: hidden;
+
+    .parade-btn, .review-btn {
+        float: left;
+        width: 50%;
+        text-align: center;
+
+        span {
+            display: inline-block;
+            padding: 24px 0;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+
+            &:hover, &.active {
+                color: #4ea77a;
+            }
+        }
+    }
+}
+
+.program-list {
+    height: 528px;
+    margin-right: -16px;
+    overflow: auto;
+
+    .live-parade {
+        overflow: hidden;
+    }
+}
+
+
+.live-item {
+    
+    overflow: hidden;
+
+    .inner-item {
+        position: relative;
+        float: right;
+        width: 93.7%;
+        padding-top: 23px;
+        border-left: 1px solid $liveIndex_green;
+        cursor: pointer;
+
+        &:hover {
+            background: #f4f4f4;
+        }
+
+        &:hover>.start-time {
+            color: $liveIndex_green;
+        }
+        &:hover a {
+            color: $liveIndex_green;
+        }
+
+        &:hover>.live-cover {
+            display: inline-block;
+        }
+
+        &:hover>.play-btn {
+            display: inline-block;
+        }
+
+        &.active {
+            background: #f4f4f4;
+            .live-cover, .play-btn {
+                display: inline-block;
+            }
+        }
+        
+        &:before {
+            position: absolute;
+            content: '';
+            top: 31px;
+            left: -5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: $liveIndex_green;
+        }
+
+        .start-time, .live-title {
+            display: inline-block;
+        }
+        
+        .start-time {
+            margin-left: 22px;
+            vertical-align: middle;
+        }
+
+        .live-cover {
+            display: none;
+            width: 82px;
+            height: 46px;
+            margin-left: 98px; 
+            margin-top: 20px;
+
+            img {
+                width: 100%;
+            }
+        }
+
+            
+
+        .live-title {
+            float: right;
+            width: 62%;
+            padding-right: 52px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .play-btn {
+            display: none;
+            width: 47px;
+            height: 17px;
+            margin-left: 96px;
+            color: $liveIndex_green;
+            border: 1px solid $liveIndex_green;
+            text-align: center;
+            border-radius: 13px;
+            font-size: 12px;
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+                background: $base_green;
+            }
+        }
+    }
+}
+
+</style>
