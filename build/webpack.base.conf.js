@@ -5,17 +5,20 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
-var entries = getEntry('./src/pages/**/*.js')
+// var entries = getEntry('./src/pages/**/*.js')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
-  entry:entries,
-  // entry: {
-  //   app: './src/main.js'
-  // },
+  // entry:entries,
+  entry: {
+    index: './src/pages/index/index_main.js',
+    // index2: './src/pages/index2/index2_main.js',
+    live: './src/pages/live/live_main.js',
+    video: './src/pages/video/video_main.js',
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -80,6 +83,8 @@ function getEntry(globPath) {
     basename = path.basename(entry, path.extname(entry));
     pathname = basename.split("_")[0];  //index_main.js得到index
     entries[pathname] = entry;
+    
   });
+  console.log('entry文件', entries)
   return entries;
 }

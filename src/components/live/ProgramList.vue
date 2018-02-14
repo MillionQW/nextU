@@ -3,11 +3,11 @@
         <div class="tabs">
             <div class="parade-btn">
                 <i></i>
-                <router-link tag="span" to="/live" :class="{ active: isParade }" @click.native="toggleArea(true)" >直播预告</router-link>
+                <router-link tag="span" to="/" :class="{ active: isParade }" @click.native="toggleArea(true)" >直播预告</router-link>
             </div>
             <div class="review-btn">
                 <i></i>
-                <router-link tag="span" to="/live/2" :class="{ active: !isParade }" @click.native="toggleArea(false)">历史回顾</router-link>
+                <router-link tag="span" to="/review" :class="{ active: !isParade }" @click.native="toggleArea(false)">历史回顾</router-link>
             </div>
         </div>
         <div class="program-container">

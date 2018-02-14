@@ -24,9 +24,17 @@ export default {
     components: {
         Icon, RoomChatbox, ProgramList
     },
+    
+    created() {
+        this.getInitDate();
+    },
     mounted() {
-        // 初始化播放器
-        var player = new Aliplayer({
+        this.initPlayer();
+    },
+    methods: {
+        initPlayer() {
+            // 初始化播放器
+            var player = new Aliplayer({
             id: "J_prismPlayer",
                  autoplay: true,
                  isLive:true,
@@ -57,7 +65,16 @@ export default {
                     console.log("播放器创建了。");
                   }
             );
-    }
+        },
+        getInitDate() {
+            $.ajax({
+                url: 'http://www.liuliuliuman.top:8081/livingroom/12',
+                success: function(res) {
+                    console.log(res);
+                }
+            })
+        }
+    },
 }
 </script>
 <style lang="scss" scoped>
