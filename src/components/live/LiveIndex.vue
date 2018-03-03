@@ -3,15 +3,15 @@
         <div  class="prism-player" id="J_prismPlayer" style=""></div>
         <div class="program-wrap">
             <div class="tabs">
-                <div @click="send" class="parade-btn">
+                <div @click="switchList(true)" class="parade-btn" :class="{active: showParade}">
                     <span>直播预告</span>
                 </div>
-                <div class="review-btn">
+                <div @click="switchList(false)" class="review-btn" :class="{active: !showParade}">
                     <span>历史回顾</span>
                 </div>
             </div>
             <div class="program-list">
-                <ul class="live-parade">
+                <ul class="live-parade" v-show=this.showParade>
                     <li class="live-item"  v-for="(item, index) in this.liveList">
                         <div class="inner-item">
                             <span class="start-time">{{item.start}}</span>
@@ -21,8 +21,14 @@
                         </div>
                     </li>
                 </ul>
-                <ul class="live-review" v-show="">
-                    <li class="live-item"></li>
+                <ul class="live-review" v-show=!this.showParade>
+                    <li class="live-item"  v-for="(item, index) in this.liveList">
+                        <div class="inner-item">
+                            <span class="start-time">{{item.start}}</span>
+                            <a href="" class="live-title">《{{item.title}}》</a>
+                            <div class="live-cover" ><img :src="item.imgUrl" alt=""></div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -36,12 +42,40 @@ import {mapGetters} from 'vuex'
 export default {
     data() {
         return {
-            liveList: ''
+            liveList: '',
+            showParade: false
         }
         
     },
     mounted() {
-        // 初始化播放器
+        this.playLiving();
+
+        this.$store.dispatch('getProgramList', 'https://easy-mock.com/mock/5a157b9e24f7a9469678dc2a/example/liveindex#!method=get')
+            .then(data => {
+                for (var s in data) {
+                    data[s].start = data[s].start.slice(10,16)
+                }
+                console.log(data)
+                this.liveList = data
+            }, error => {
+                console.error("获取失败")
+            })
+        
+    },
+    computed: {
+        ...mapGetters([
+                'getLiveList'
+            ]),
+        getList() {
+            return this.$store.getters.getLiveList
+        }
+    },
+    methods: {
+        switchList(boolean) {
+            this.showParade = boolean === true ? true : false;
+        },
+        playLiving() {
+            // 初始化播放器
         var player = new Aliplayer({
             id: "J_prismPlayer",
                  autoplay: true,
@@ -73,30 +107,6 @@ export default {
                     console.log("播放器创建了。");
                   }
             );
-
-        this.$store.dispatch('getProgramList', 'https://easy-mock.com/mock/5a157b9e24f7a9469678dc2a/example/liveindex#!method=get')
-            .then(data => {
-                for (var s in data) {
-                    data[s].start = data[s].start.slice(10,16)
-                }
-                console.log(data)
-                this.liveList = data
-            }, error => {
-                console.error("获取失败")
-            })
-        
-    },
-    computed: {
-        ...mapGetters([
-                'getLiveList'
-            ]),
-        getList() {
-            return this.$store.getters.getLiveList
-        }
-    },
-    methods: {
-        send() {
-            console.log(this.$store.getters)
         }
     }
     
@@ -138,6 +148,7 @@ export default {
         float: left;
         width: 50%;
         text-align: center;
+        cursor: pointer;
 
         span {
             display: inline-block;
@@ -163,6 +174,9 @@ export default {
     }
 }
 
+.active {
+    background: #73dc96;
+}
 
 .live-item {
     

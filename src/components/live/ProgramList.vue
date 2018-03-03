@@ -71,7 +71,7 @@ export default {
     i {
         display: inline-block;
         width: 48px;
-        height: 48px;
+        height: 35px;
         background: url(../../../static/img/未标题-1.png) no-repeat;
     }
 

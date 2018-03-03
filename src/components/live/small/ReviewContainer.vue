@@ -1,13 +1,13 @@
 <template>
     <div class="parade-container">
         <ul>
-            <li class="video-item" v-for="(item, index) in this.getReviewList">
-                <div class="video-cover"><img :src="item.video_cover" alt=""></div>
-                <h3 class="video-title"><a href="">{{item.video_title}}</a></h3>
-                <span class="begin-time"><icon name="clock-o"></icon>开课时间：d{{item.begin_time}}</span>
+            <li class="video-item" v-for="(item, index) in this.initData">
+                <div class="video-cover"><img :src="item.previewImgUrl" alt=""></div>
+                <h3 class="video-title"><a href="">{{item.title}}</a></h3>
+                <span class="begin-time"><icon name="clock-o"></icon>开课时间：d{{item.start}}</span>
                 
-                <span class="lesson-type"><icon name="book"></icon>{{item.lesson_type}}</span>
-                <span class="teacher-introduce"><icon name="user-circle-o"></icon>{{item.teacher_introduce}}</span>
+                <span class="lesson-type"><icon name="book"></icon>{{item.domainName}}</span>
+                <span class="teacher-introduce"><icon name="user-circle-o"></icon>{{item.description}}</span>
                 <span class="play-btn">观看回放</span>
             </li>
         </ul>
@@ -25,8 +25,29 @@ export default {
             'getReviewList',
         ])
     },
+    data() {
+        return {
+            initData: {}
+        }
+    },
     components: {
         Icon
+    },
+    created() {
+        this.getInitData();
+    },
+    methods: {
+        getInitData() {
+            let self = this;
+            $.ajax({
+                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/livepreview/liveId?liveid=12#!method=get'
+            }).done(function(res) {
+                if (res.code === 200) {
+                    let initData = res.data;
+                    self.initData = initData;
+                }
+            })
+        }
     }
 }
 
@@ -35,12 +56,7 @@ export default {
 @import '../../../CSS/colors.scss';
 @import '../../../CSS/common.scss';
 
-.parade-container, review-container {
-    overflow: hidden;
-    ul {
 
-    }
-}
 
 .parade-container, .review-container {
     width: 92.5%;

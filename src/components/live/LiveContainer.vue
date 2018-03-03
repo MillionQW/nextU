@@ -1,5 +1,9 @@
 <template>
     <section class="live-area">
+        <div class="room-head">
+            <h2 class="lesson-title">{{room_info.title}}</h2>
+        </div>
+        
         <div  class="prism-player" id="J_prismPlayer" style=""></div>
         <room-chatbox></room-chatbox>
         <div class="play-tools">
@@ -24,12 +28,24 @@ export default {
     components: {
         Icon, RoomChatbox, ProgramList
     },
-    
+    data() {
+        return {
+            initData: {},
+            room_info: {}
+        }
+    },
     created() {
-        this.getInitDate();
+        this.getInitData();
+    },
+    beforeMount() {
     },
     mounted() {
-        this.initPlayer();
+        // this.initPlayer();
+    },
+    watch:{
+        initData: function() {
+            this.initPlayer();
+        }
     },
     methods: {
         initPlayer() {
@@ -44,7 +60,7 @@ export default {
                  controlBarVisibility:"always",
                  useH5Prism:false,
                  useFlashPrism:true,
-                 source:"http://live.liuliuliuman.top/nextu/livestream.flv",
+                 source: this.initData.playUrlFlv,
                  cover:"",
                  skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
                         {"name":"H5Loading","align":"cc"},
@@ -66,12 +82,19 @@ export default {
                   }
             );
         },
-        getInitDate() {
+        getInitData() {
+            let self = this;
             $.ajax({
-                url: 'http://www.liuliuliuman.top:8081/livingroom/12',
-                success: function(res) {
-                    console.log(res);
+                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/livingroom/12',
+            }).done(function(res) {
+                if (res.code === 200) {
+                   let initData = res.data;
+                   let room_info = {};
+                   self.initData = initData;
+                   self.room_info = initData.room_info
                 }
+            }).fail(function(err) {
+                console.log(err);
             })
         }
     },
@@ -87,6 +110,14 @@ export default {
     margin: 0 auto;
     background: #fff;
     overflow: hidden;
+
+    .room-head {
+        padding: 10px 0;
+        background: #f0f0f0;
+        h2 {
+            font-weight: normal;
+        }
+    }
 
     .prism-player {
         position: relative;

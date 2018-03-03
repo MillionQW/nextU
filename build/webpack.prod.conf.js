@@ -105,7 +105,8 @@ for (var pathname in pages) {
         collapseWhitespace: true,
         removeAttributeQuotes: true
       },
-      chunks:[pathname]
+      chunks: ['manifest', 'vendor', pathname],
+      // chunks:[pathname]  // 2.15修改
     }
   plugins.push(new HtmlWebpackPlugin(conf));
 }

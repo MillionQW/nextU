@@ -35,12 +35,12 @@ export default {
 @import '../../CSS/colors.scss';
 
 #app {
-  width: 1200px;
   margin: 0 auto;
 }
 
 .main {
     min-width: 1349px;
+    width: 1349px;
     margin: 0 auto;
     *zoom:1;
 }
