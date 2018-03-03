@@ -12,21 +12,21 @@
             </div>
             <div class="program-list">
                 <ul class="live-parade" v-show=this.showParade>
-                    <li class="live-item"  v-for="(item, index) in this.liveList">
+                    <li class="live-item living"   v-for="(item, index) in this.recordsList">
                         <div class="inner-item">
                             <span class="start-time">{{item.start}}</span>
                             <a href="" class="live-title">《{{item.title}}》</a>
-                            <div class="live-cover" ><img :src="item.imgUrl" alt=""></div>
+                            <div class="live-cover" ><img :src="item.recordImgUrl" alt=""></div>
                             <span class="play-btn">抢先看</span>
                         </div>
                     </li>
                 </ul>
                 <ul class="live-review" v-show=!this.showParade>
-                    <li class="live-item"  v-for="(item, index) in this.liveList">
+                    <li class="live-item"  v-for="(item, index) in this.previewsList">
                         <div class="inner-item">
                             <span class="start-time">{{item.start}}</span>
                             <a href="" class="live-title">《{{item.title}}》</a>
-                            <div class="live-cover" ><img :src="item.imgUrl" alt=""></div>
+                            <div class="live-cover" ><img :src="item.previewImgUrl" alt=""></div>
                         </div>
                     </li>
                 </ul>
@@ -42,37 +42,46 @@ import {mapGetters} from 'vuex'
 export default {
     data() {
         return {
-            liveList: '',
+            recordsList: [],
+            previewsList: [],
             showParade: false
         }
         
     },
+    created() {
+        this.getInitData();
+    },
     mounted() {
         this.playLiving();
-
-        this.$store.dispatch('getProgramList', 'https://easy-mock.com/mock/5a157b9e24f7a9469678dc2a/example/liveindex#!method=get')
-            .then(data => {
-                for (var s in data) {
-                    data[s].start = data[s].start.slice(10,16)
-                }
-                console.log(data)
-                this.liveList = data
-            }, error => {
-                console.error("获取失败")
-            })
-        
-    },
-    computed: {
-        ...mapGetters([
-                'getLiveList'
-            ]),
-        getList() {
-            return this.$store.getters.getLiveList
-        }
     },
     methods: {
         switchList(boolean) {
             this.showParade = boolean === true ? true : false;
+        },
+        getInitData() {
+            let self = this;
+            $.ajax({
+                type: 'POST',
+                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/livingroom',
+            }).done(function(res) {
+                if (res.code === 200) {
+                   var data = res.data;
+                   var records = data.records;
+                   var previews = data.previews;
+                   for (var s in previews) {
+                        var start = previews[s].start.slice(10,16)
+                        previews[s].start = start
+                   }
+                   self.previewsList = previews;
+                   for (var s in records) {
+                        var start = records[s].start.slice(10,16)
+                        records[s].start = start
+                   }
+                   self.recordsList = records;
+                }
+            }).fail(function(err) {
+                console.log(err);
+            })
         },
         playLiving() {
             // 初始化播放器
@@ -276,6 +285,27 @@ export default {
             }
         }
     }
+}
+
+// 正在播放
+.living:first-child {
+        background: #f4f4f4;
+
+        .start-time {
+            color: $liveIndex_green;
+        }
+        a {
+            color: $liveIndex_green;
+        }
+        .live-cover {
+            display: inline-block;
+        }
+        .live-title {
+             color: #3c6;
+        }
+        .play-btn {
+            display: inline-block;
+        }
 }
 
 </style>
