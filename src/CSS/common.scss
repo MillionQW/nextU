@@ -1,3 +1,5 @@
+@import './colors.scss';
+
 * {
     font-family: "Microsoft YaHei", Arial, sans-serif;
     padding: 0;
@@ -15,10 +17,40 @@ input {
     border: 0;
     outline: 0;
 }
+button {
+    border: 0;
+}
 a {
     text-decoration: none;
 }
 
 svg {
     vertical-align: middle;
+}
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+    overflow: hidden;
+}
+.clearfix {
+    zoom: 1;
+}
+#app {
+    background: $body_bg;
+}
+// 直播和视频
+.lv-container {
+    width: 1214px;
+    min-width: 1213px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+// 侧栏
+.side-nav {
+    position: fixed;
+    left: 0;
+    top: 90px;
 }

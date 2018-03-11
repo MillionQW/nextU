@@ -86,6 +86,7 @@ export default {
     height: 720px;
     margin-top: 50px;
     box-shadow: 2px 2px 10px 5px $green_bd;
+    background: #fff;
 }
 
 h3 {

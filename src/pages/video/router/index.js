@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import VideoList from '../../../components/video/VideoList'
+import VideoRoom from '../../../components/video/VideoRoom'
+import RelatedComment from '../../../components/video/small/RelatedComment'
 
 Vue.use(Router)
 
@@ -9,12 +10,14 @@ export default new Router({
       {
         path: '/',
         name: 'videoList_default',
-        component: VideoList
-      },
-      {
-        path: '/s',
-        name: 's',
-        component: VideoList
+        component: VideoRoom,
+        children: [
+          {
+            path: '',
+            name: 'comment',
+            component: RelatedComment
+          }
+        ]
       }
     ]
 })

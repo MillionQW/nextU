@@ -93,6 +93,7 @@ export default {
     height: 460px;
     padding-top: 10px;
     box-shadow: 2px 6px 10px 5px $green_bd;
+    background: #fff;
     ul {
         margin: 0 auto;
         width: 100%;

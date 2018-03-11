@@ -31,9 +31,7 @@ export default {
 @import '../../CSS/normalize.css';
 @import '../../CSS/common.scss';
 @import '../../CSS/colors.scss';
-#app {
-  background: $body_bg;
-}
+
 header {
   position: fixed;
   top: 0;

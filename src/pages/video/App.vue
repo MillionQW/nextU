@@ -2,6 +2,7 @@
   <div id="app">
     <n-header></n-header>
     <main class="main">
+      <side-nav class="side-nav"></side-nav>
       <router-view></router-view>
     </main>
     <n-footer></n-footer>
@@ -12,12 +13,13 @@
 <script>
 import nHeader from '@/components/Header.vue'
 import nFooter from '@/components/Footer.vue'
-import VideoList from '@/components/video/VideoList.vue'
+import SideNav from '@/components/live/SideNav.vue'
+import VideoRoom from '@/components/video/VideoRoom.vue'
 
 export default {
   name: 'app',
   components: {
-    nHeader, nFooter, VideoList
+    nHeader, nFooter, VideoRoom, SideNav
   }
 }
 </script>
