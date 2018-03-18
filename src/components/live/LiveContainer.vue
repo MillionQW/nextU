@@ -131,7 +131,7 @@ export default {
         padding-top: 15px;
         padding-bottom: 15px;
         clear: both;
-        background: $body_bg;
+        background: #fff;
         ul {
             padding-left: 24px;
             li {

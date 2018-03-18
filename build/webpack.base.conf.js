@@ -18,6 +18,7 @@ module.exports = {
     // index2: './src/pages/index2/index2_main.js',
     live: './src/pages/live/live_main.js',
     video: './src/pages/video/video_main.js',
+    login: './src/pages/login/login_main.js',
   },
   output: {
     path: config.build.assetsRoot,

@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import nHeader from '@/components/Header.vue'
-import nFooter from '@/components/Footer.vue'
-import LiveContainer from '@/components/live/LiveContainer.vue'
-import SideNav from '@/components/live/SideNav.vue'
-import LiveIndex from '@/components/live/LiveIndex.vue'
+import nHeader from '@/components/Header.vue';
+import nFooter from '@/components/Footer.vue';
+import LiveContainer from '@/components/live/LiveContainer.vue';
+import SideNav from '@/components/live/SideNav.vue';
+import LiveIndex from '@/components/live/LiveIndex.vue';
 
 
 export default {

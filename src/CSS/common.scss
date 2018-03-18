@@ -15,7 +15,11 @@ li {
 }
 input {
     border: 0;
-    outline: 0;
+    outline: none;
+    &:focus {
+        outline: none;
+    }
+    
 }
 button {
     border: 0;
@@ -37,6 +41,9 @@ svg {
 }
 .clearfix {
     zoom: 1;
+}
+body {
+    background: $body_bg;
 }
 #app {
     background: $body_bg;
