@@ -20,11 +20,12 @@ import nFooter from '@/components/Footer.vue'
 import CreateCenter from '@/components/CreateCenter.vue'
 import MyFollow from '@/components/MyFollow.vue'
 import MyCollection from '@/components/MyCollection.vue'
+import LiveInfo from '@/components/LiveInfo.vue'
 
 export default {
   name: 'app',
   components: {
-    nHeader, PersonPage, LeftSide, nFooter, CreateCenter, MyFollow, MyCollection
+    nHeader, PersonPage, LeftSide, nFooter, CreateCenter, MyFollow, MyCollection, LiveInfo
   }
 }
 </script>

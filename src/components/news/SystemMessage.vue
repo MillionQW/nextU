@@ -26,9 +26,6 @@ export default {
             return this.$store.getters.getSystemNews
         }
     },
-    mounted() {
-        console.log(this)
-    }
 }
 </script>
 <style lang="scss" scoped>

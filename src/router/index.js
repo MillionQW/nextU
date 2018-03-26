@@ -8,6 +8,7 @@ import MyIntergral from '../components/MyIntergral'
 import IntergralShop from '../components/IntergralShop'
 import MyFootprint from '../components/MyFootprint'
 import MyNews from '../components/MyNews'
+import LiveInfo from '../components/LiveInfo'
 import PrivateMessage from '../components/news/PrivateMessage'
 import SystemMessage from '../components/news/SystemMessage'
 import TheComment from '../components/news/TheComment'
@@ -57,6 +58,11 @@ export default new Router({
       component: MyFootprint
     },
     {
+      path: '/liveinfo',
+      name: 'liveinfo',
+      component: LiveInfo
+    },
+    {
       path: '/mynews',
       component: MyNews,
       children: [
@@ -80,30 +86,13 @@ export default new Router({
           path: '/mynews/thecomment',
           name: 'thecomment',
           component: TheComment
-        }
-      ]
-    },
-    {
-      path: '/live',
-      component: LiveContainer,
-      children: [
-        {
-          path: '/',
-          name: 'parade',
-          component: ParadeContainer
         },
         {
-          path: '2',
-          name: 'review',
-          component: ReviewContainer
+          path: '/mynews/liveinfo',
+          name: 'liveinfo',
+          component: LiveInfo
         }
       ]
-    },
-    {
-      path: '/liveindex',
-      name: 'liveindex',
-      component: LiveIndex
     }
-    
   ]
 })

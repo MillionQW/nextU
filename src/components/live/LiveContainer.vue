@@ -2,9 +2,20 @@
     <section class="live-area">
         <div class="room-head">
             <h2 class="lesson-title">{{room_info.title}}</h2>
+            <div class="live-btn" @click.prevent="startLiving($event)">
+                <label class="switch-btn no-radius">
+                    <input class="checked-switch" type="checkbox" v-model="closeLive" />
+                    <span class="text-switch" data-yes="开始直播" data-no="关闭直播"></span> 
+                    <span class="toggle-btn"></span> 
+                </label>
+            </div>
+            <button class="live-flow" @click="getFlow">获取推流码</button>
         </div>
-        
-        <div  class="prism-player" id="J_prismPlayer" style=""></div>
+        <Modal v-model="modal1"  title="直播信息">
+            <p>rtmp地址：<Input v-model="initData.playUrlRtmp" readonly></Input></p>
+            <p>直播码：<Input v-model="initData.streamKey" type="textarea"></Input></p>
+        </Modal>
+        <div  class="prism-player" id="J_prismPlayer"></div>
         <room-chatbox></room-chatbox>
         <div class="play-tools">
             <ul>
@@ -18,7 +29,6 @@
     </section>
 </template>
 <script>
-import Vue from 'vue'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import RoomChatbox from './small/RoomChatbox'
@@ -31,7 +41,9 @@ export default {
     data() {
         return {
             initData: {},
-            room_info: {}
+            room_info: {},
+            modal1: false,
+            closeLive: false,   
         }
     },
     created() {
@@ -97,6 +109,33 @@ export default {
             }).fail(function(err) {
                 console.log(err);
             })
+        },
+        getFlow() {
+            this.modal1 = !this.modal1;
+        },
+        startLiving(e) {
+            this.closeLive = !this.closeLive;
+            let self = this;
+            if (this.closeLive) {
+                $.ajax({
+                    type:'POST',
+                    url: 'http://www.liuliuliuman.top:8081/livingroom/liveStreamOpen',
+                    data: {"liveid": 12},
+                    dataType: 'json'
+                }).fail(function(err) {
+                    console.log(err);
+                })
+            } else {
+                $.ajax({
+                    type:'POST',
+                    url: 'http://www.liuliuliuman.top:8081/livingroom/liveStreamClose',
+                    data: {"liveid": 12},
+                    dataType: 'json'
+                }).fail(function(err) {
+                    console.log(err);
+                })
+            }
+            
         }
     },
 }
@@ -113,10 +152,25 @@ export default {
     overflow: hidden;
 
     .room-head {
+        overflow: hidden;
         padding: 10px 0;
         background: #f0f0f0;
         h2 {
-            font-weight: normal;
+            font-size: 20px;
+            font-weight: bold;
+            float: left;
+        }
+        .live-btn {
+            float: right;
+        }
+        .live-flow {
+            float: right;
+            padding: 4px;
+            margin-right: 14px;
+            margin-top: 4px;
+            background: #fcf7f7;
+            font-size: 12px;
+            border: 1px solid #ccc;
         }
     }
 
@@ -156,4 +210,23 @@ export default {
         }
     }
 }
+
+.switch-btn {position: relative; display: block; vertical-align: top; width: 109px; height: 32px; border-radius: 18px; cursor: pointer;}
+.checked-switch {position: absolute; top: 0; left: 0; opacity: 0;}
+.text-switch {background-color: #ed5b49; border: 1px solid #d2402e; border-radius: inherit; color: #fff; display: block; font-size: 15px; height: inherit; position: relative; text-transform: uppercase;}
+.text-switch:before, .text-switch:after {position: absolute; top: 50%; margin-top: -.5em; line-height: 1; -webkit-transition: inherit; -moz-transition: inherit; -o-transition: inherit; transition: inherit;}
+.text-switch:before {content: attr(data-no); right: 11px;}
+.text-switch:after {content: attr(data-yes); left: 11px; color: #FFFFFF; opacity: 0;}
+.checked-switch:checked ~ .text-switch {background-color: #396; border: 1px solid #068506;}
+.checked-switch:checked ~ .text-switch:before {opacity: 0;}
+.checked-switch:checked ~ .text-switch:after {opacity: 1;}
+.toggle-btn {background: linear-gradient(#eee, #fafafa); border-radius: 100%; height: 30px; left: 1px; position: absolute; top: 1px; width: 28px;}
+.toggle-btn::before {color: #aaaaaa; content: "|||"; display: inline-block; font-size: 12px; letter-spacing: -2px; padding: 4px 0; vertical-align: middle;}
+.checked-switch:checked ~ .toggle-btn {left: 79px;}
+ .text-switch, .toggle-btn {transition: All 0.3s ease; -webkit-transition: All 0.3s ease; -moz-transition: All 0.3s ease; -o-transition: All 0.3s ease;}
+
+
+.no-radius, .no-radius .toggle-btn{border-radius: 0;}
+
+.circle-style .toggle-btn::before{background: linear-gradient(#dedede, #cacaca); border-radius: 50%; content: ""; height: 14px; margin-top: 6px; padding: 0; width: 14px;}
 </style>

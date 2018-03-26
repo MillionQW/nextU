@@ -21,11 +21,11 @@
                 <router-link tag="li" to='/mycollection'><icon name="star-o"></icon><a href="">我的收藏</a></router-link>
                 <router-link tag="li" to="/myfootprint"><icon name="map-o"></icon><a href="#">我的足迹</a></router-link>
                 <router-link tag="li" to="/myfollow"><icon name="heart-o"></icon><a>我的关注</a></router-link>
-                <li><icon name="globe"></icon><a href="">我的圈子</a></li>
                 <li><icon name="bullhorn"></icon><a href="">我的活动</a></li>
                 <li><icon name="film"></icon><a href="">创作中心</a></li>
                 <router-link tag="li" to="/createcenter"><icon name="wrench"></icon><a>创作工具</a></router-link>
                 <router-link tag="li" to='/mynews'><icon name="commenting-o"></icon><a href="">我的消息</a></router-link>
+                <router-link tag="li" to='/liveinfo'><icon name="camera-retro"></icon><a href="">我要直播</a></router-link>
             </ul>
         </div>
     </div>
