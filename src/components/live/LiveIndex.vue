@@ -61,8 +61,8 @@ export default {
         getInitData() {
             let self = this;
             $.ajax({
-                type: 'POST',
-                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/livingroom',
+                type: 'GET',
+                url: 'http://www.liuliuliuman.top:8081/livingroom/12',
             }).done(function(res) {
                 if (res.code === 200) {
                    var data = res.data;

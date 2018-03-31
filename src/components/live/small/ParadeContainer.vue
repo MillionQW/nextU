@@ -1,14 +1,14 @@
 <template>
     <div class="parade-container">
         <ul>
-            <li class="video-item" v-for="(item, index) in this.getReviewList">
-                <div class="video-cover"><img :src="item.video_cover" alt=""></div>
-                <h3 class="video-title"><a href="">{{item.video_title}}</a></h3>
-                <span class="begin-time"><icon name="clock-o"></icon>开课时间：{{item.begin_time}}</span>
+            <li class="video-item" v-for="(item, index) in this.initData">
+                <div class="video-cover"><img :src="item.previewImgUrl" alt=""></div>
+                <h3 class="video-title"><a href="">{{item.title}}</a></h3>
+                <span class="begin-time"><icon name="clock-o"></icon>开课时间：{{item.start}}</span>
                 
-                <span class="lesson-type"><icon name="book"></icon>{{item.lesson_type}}</span>
-                <span class="teacher-introduce"><icon name="user-circle-o"></icon>{{item.teacher_introduce}}</span>
-                <span class="play-btn">观看回放</span>
+                <span class="lesson-type"><icon name="book"></icon>{{item.domainName}}</span>
+                <span class="teacher-introduce"><icon name="user-circle-o"></icon>{{item.description}}</span>
+                <span class="play-btn">抢先看</span>
             </li>
         </ul>
     </div>
@@ -20,6 +20,11 @@ import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 
 export default {
+    data() {
+        return {
+            initData: {}
+        }
+    },
     computed: {
         ...mapGetters([
             'getReviewList',
@@ -27,6 +32,26 @@ export default {
     },
     components: {
         Icon
+    },
+    created() {
+        this.getInitData();
+    },
+    methods: {
+        getInitData() {
+            let self = this;
+            $.ajax({
+                type: 'POST',
+                data: {
+                    liveid: 12
+                },
+                url: 'http://www.liuliuliuman.top:8081/liverecord/byLiveId'
+            }).done(function(res) {
+                if (res.code === 200) {
+                    let initData = res.data;
+                    self.initData = initData;
+                }
+            })
+        }
     }
 }
 </script>

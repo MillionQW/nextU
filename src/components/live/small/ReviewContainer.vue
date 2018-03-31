@@ -4,7 +4,7 @@
             <li class="video-item" v-for="(item, index) in this.initData">
                 <div class="video-cover"><img :src="item.previewImgUrl" alt=""></div>
                 <h3 class="video-title"><a href="">{{item.title}}</a></h3>
-                <span class="begin-time"><icon name="clock-o"></icon>开课时间：d{{item.start}}</span>
+                <span class="begin-time"><icon name="clock-o"></icon>开课时间：{{item.start}}</span>
                 
                 <span class="lesson-type"><icon name="book"></icon>{{item.domainName}}</span>
                 <span class="teacher-introduce"><icon name="user-circle-o"></icon>{{item.description}}</span>
@@ -40,7 +40,11 @@ export default {
         getInitData() {
             let self = this;
             $.ajax({
-                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/livepreview/liveId?liveid=12#!method=get'
+                type: 'POST',
+                data: {
+                    liveid: 12
+                },
+                url: 'http://www.liuliuliuman.top:8081/livepreview/byLiveId'
             }).done(function(res) {
                 if (res.code === 200) {
                     let initData = res.data;

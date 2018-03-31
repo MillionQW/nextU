@@ -15,10 +15,11 @@ module.exports = {
   // entry:entries,
   entry: {
     index: './src/pages/index/index_main.js',
-    // index2: './src/pages/index2/index2_main.js',
     live: './src/pages/live/live_main.js',
     video: './src/pages/video/video_main.js',
     login: './src/pages/login/login_main.js',
+    lessonXQ: './src/pages/lessonXQ/lessonXQ_main.js',
+    search: './src/pages/search/search_main.js',
   },
   output: {
     path: config.build.assetsRoot,

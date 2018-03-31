@@ -3,9 +3,8 @@
         <div class="header-top">
             <h1 class="logo">Next U</h1>
             <div class="search-area">
-                <input type="text" class="search-input" placeholder="搜索考研/BEC...">
-                <div class="search-icon"><icon name="search" class="search-icon"></icon></div>
-                
+                <input type="text" class="search-input" ref="searchInput" placeholder="搜索考研/BEC..." @keyup.enter="search">
+                <div class="search-icon" @click="search"><icon name="search" class="search-icon"></icon></div>
             </div>
             <div class="login-area">
                 <ul>
@@ -16,13 +15,6 @@
                 </ul>
             </div>
         </div>
-       <!--  <div class="header-nav">
-            <ul　>
-                <li><a href="">首页</a></li>
-                <li><a href="">关于</a></li>
-                <li><a href="">客户端下载</a></li>
-            </ul>
-        </div> -->
     </header>
 </template>
 <script>
@@ -32,6 +24,12 @@ import Icon from 'vue-awesome/components/Icon'
 export default {
     components: {
         Icon
+    },
+    methods: {
+        search() {
+            let value = this.$refs.searchInput.value;
+            window.open(`http://localhost:8081/search.html?search=${value}`)
+        }
     }
 }
 </script>
@@ -90,6 +88,7 @@ export default {
                 height: 43px;
                 border-radius: 0 40px 40px 0;
                 background: $green_bg;
+                cursor: pointer;
                 svg {
                     top: -2px;
                     right: 10px;

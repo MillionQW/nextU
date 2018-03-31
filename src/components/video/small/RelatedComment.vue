@@ -6,7 +6,7 @@
           </div>
           
           <form action="" class="message-border">
-              <textarea name="" id="" cols="131" rows="5"></textarea>
+              <textarea name="" id="" cols="122" rows="5"></textarea>
               <button class="submit-btn">提交</button>
           </form>         
       </div>

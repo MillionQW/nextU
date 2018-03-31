@@ -2,13 +2,13 @@
   <section class="videoRelated">
       <div class="tabs">
           <div class="comment-btn">
-              <router-link tag="span" to="/"  :class="{ active: switchTabs === 'comment' }" @click.native="toggleArea(true)" >相关评论</router-link>
+              <router-link tag="span" to="/"  :class="{ active: switchTabs === 'comment' }" @click.native="toggleArea('comment')" >相关评论</router-link>
           </div>
           <div class="introduction-btn">
-              <router-link tag="span" to="/introduction"  :class="{ active: switchTabs === 'introduction' }" @click.native="toggleArea(true)" >课程简介</router-link>
+              <router-link tag="span" to="/introduction"  :class="{ active: switchTabs === 'introduction' }" @click.native="toggleArea('introduction')" >课程简介</router-link>
           </div>
           <div class="recommand-btn">
-              <router-link tag="span" to="/recommand"  :class="{ active: switchTabs === 'recommand' }" @click.native="toggleArea(true)" >相关推荐</router-link>
+              <router-link tag="span" to="/recommand"  :class="{ active: switchTabs === 'recommand' }" @click.native="toggleArea('recommand')" >相关推荐</router-link>
           </div>
       </div>
       <div class="related-container">
@@ -21,7 +21,12 @@
 export default {
     data() {
         return {
-            switchTabs: 'introduction'
+            switchTabs: 'comment'
+        }
+    },
+    methods: {
+        toggleArea(tab) {
+            this.switchTabs = tab;
         }
     }
 }

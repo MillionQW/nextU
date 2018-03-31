@@ -2,10 +2,10 @@
     <nav class="side-nav">
         <ul>
             <li>
-                <a href="index2.html" class="index">首页</a>
+                <a href="http://localhost:8081/home.html" class="index">首页</a>
             </li>
             <li>
-                <a href="#" class="live">直播</a>
+                <a href="http://localhost:8081/live.html#/liveindex" class="live">直播</a>
             </li>
             <li>
                 <a href="#" class="lesson">专项课程</a>
