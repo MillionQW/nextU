@@ -14,10 +14,10 @@ function resolve (dir) {
 module.exports = {
   // entry:entries,
   entry: {
-    index: './src/pages/index/index_main.js',
+    center: './src/pages/center/center_main.js',
     live: './src/pages/live/live_main.js',
     video: './src/pages/video/video_main.js',
-    login: './src/pages/login/login_main.js',
+    nextulogin: './src/pages/nextulogin/nextulogin_main.js',
     lessonXQ: './src/pages/lessonXQ/lessonXQ_main.js',
     search: './src/pages/search/search_main.js',
   },

@@ -1,23 +1,22 @@
 <template>
 <section>
     <div class="container">
-        <h3><icon name="star-o" class="star"></icon>我的收藏</h3>
-        <div class="collectionList">
-            <div class="collection_empty">
-                <icon name="inbox"></icon>
-                <span>暂无内容</span>
-            </div>
-        </div>
+        <h3><icon name="camera-retro" class="camera"></icon>我要直播</h3>
+        
     </div>
+    <input-dialog class="dialog" setkey="类别" value="考试"></input-dialog>
 </section>
+
 </template>
 <script>
 import Vue from 'vue'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+// import InputDialog from './dialog/InputDialog'
+import InputDialog from './dialog/InputDialog'
 export default {
     components: {
-        Icon
+        Icon, InputDialog
     }
 }
 </script>
@@ -42,33 +41,14 @@ h3 {
     font-weight: normal;
     font-size: 25px;
     border-bottom: 1px solid $base_green;
-    .star {
+    .camera {
         padding-right: 20px;
         width: auto;
         height: 20px;
     }
 }
-
-.collectionList {
-    position: relative;
-    width: 700px;
-    height: 600px;
-}
-
-.collection_empty {
+.dialog {
     position: absolute;
-    top: 30%;
-    left: 50%;
-    text-align: center;
-    color: $base_green;
-    opacity: .7;
-    svg {
-        width: auto;
-        height: 150px;
-    }
-    span {
-        display: block;
-        font-size: 20px;
-    }
 }
+
 </style>

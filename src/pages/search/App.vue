@@ -5,11 +5,40 @@
       <side-nav class="side-nav"></side-nav>
       <div class="search-container">
           <h2 class="search-title">搜索：{{this.searchWord}}</h2>
-          <div class="category-container">
-            <h3 class="category" v-show="livingrooms">直播回顾</h3>
+          <div class="category-container clearfix">
+            <h3 class="category" v-show="livePreviews">直播回顾</h3>
             <div class="result-item"  v-for="(item, index) in this.livePreviews" :key="index">
               <div class="result-cover"><img :src="item.previewImgUrl" alt=""></div>
-              <div class="result-title">{{item.title}}</div>
+              <h4 class="result-title" :title="item.title">{{item.title}}</h4>
+              <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
+              <p class="result-summary">{{item.description}}</p>
+            </div>
+          </div>
+          <div class="category-container clearfix">
+            <h3 class="category" v-show="livingrooms">直播间</h3>
+            <div class="result-item"  v-for="(item, index) in this.livingrooms" :key="index">
+              <div class="result-cover"><img :src="item.imgUrl" alt=""></div>
+              <h4 class="result-title" :title="item.title">{{item.title}}</h4>
+              <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
+              <p class="result-summary">{{item.description}}</p>
+            </div>
+          </div>
+          <div class="category-container clearfix">
+            <h3 class="category" v-show="liveRecords">直播预告</h3>
+            <div class="result-item"  v-for="(item, index) in this.liveRecords" :key="index">
+              <div class="result-cover"><img :src="item.recordImgUrl" alt=""></div>
+              <h4 class="result-title" :title="item.title">{{item.title}}</h4>
+              <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
+              <p class="result-summary">{{item.description}}</p>
+            </div>
+          </div>
+          <div class="category-container clearfix">
+            <h3 class="category" v-show="courses">直播预告</h3>
+            <div class="result-item"  v-for="(item, index) in this.courses" :key="index">
+              <div class="result-cover"><img :src="item.picture" alt=""></div>
+              <h4 class="result-title" :title="item.title">{{item.name}}</h4>
+              <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
+              <p class="result-summary">{{item.brief}}</p>
             </div>
           </div>
       </div>
@@ -23,6 +52,8 @@
 import nHeader from '@/components/Header.vue'
 import nFooter from '@/components/Footer.vue'
 import SideNav from '@/components/live/SideNav.vue'
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
 
 export default {
   name: 'app',
@@ -31,11 +62,12 @@ export default {
       searchWord: '',
       livePreviews: '',
       livingrooms: '',
-      liveRecord: ''
+      liveRecords: '',
+      courses: ''
     }
   },
   components: {
-    nHeader, nFooter, SideNav
+    nHeader, nFooter, SideNav, Icon
   },
   created() {
     this.getSearchRes();
@@ -56,13 +88,14 @@ export default {
       search = this.handleSearchWord(search);
       $.ajax({
         type: 'POST',
-        url: `https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/search?search=${self.searchWord}`
+        url: `http://localhost:8081/livingroom/searchRel?search=${self.searchWord}`
       }).done(function(res) {
         if (res.code = 200) {
           let initData = res.data;
           self.livePreviews = initData.livePreviews;
           self.livingrooms = initData.livingrooms;
-          self.liveRecord = initData.liveRecord;
+          self.liveRecords = initData.liveRecords;
+          self.courses = initData.courses;
         }
       }).fail(function(err) {
         console.log(err);
@@ -111,6 +144,7 @@ export default {
   margin-bottom: 20px;
   background: #fff;
   border-radius: 6px;
+  cursor: pointer;
   .result-cover {
     width: 220px;
     height: 150px;
@@ -125,6 +159,30 @@ export default {
     padding: 14px 17px 2px 17px;
     font-size: 14px;
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .result-teacher {
+    padding-right: 20px;
+    margin-top: 5px;
+    font-size: 12px;
+    text-align: right;
+    color: #396;
+    svg {
+      margin-right: 2px;
+      vertical-align: text-bottom;
+    }
+  }
+  .result-summary {
+    height: 82px;
+    padding: 5px 19px;
+    font-size: 13px;
+    color: #989898;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
   }
 }
 

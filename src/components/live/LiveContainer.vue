@@ -49,11 +49,6 @@ export default {
     created() {
         this.getInitData();
     },
-    beforeMount() {
-    },
-    mounted() {
-        // this.initPlayer();
-    },
     watch:{
         initData: function() {
             this.initPlayer();
@@ -129,7 +124,7 @@ export default {
                 $.ajax({
                     type:'POST',
                     url: 'http://localhost:8081/livingroom/liveStreamClose',
-                    data: {"liveid": 12},
+                    data: {"jsonstring": '{"liveid":"12","nickename":"abc","domain_name":"数学","subject_name":"微积分","title":"大学要好好学数学","description":"刘德华改行教数学\n与张学友同框\n直播\n更多精彩尽在@nextu","record_img_url":".../aaa/aaa.jpg"}'},
                     dataType: 'json'
                 }).fail(function(err) {
                     console.log(err);
