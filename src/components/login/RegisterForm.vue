@@ -2,17 +2,26 @@
   <div class="login-container">
     <form action="" class="register-form">
       <label for="username" class="username"><i class="user-icon"></i><input name="username" type="text" id="username" placeholder="请输入手机号码或邮箱"></label>
-      <label for="code" class="code"><i class="code-icon"></i><input type="text" id="code"><span class="getCode">获取验证码</span></label>
+      <label for="code" class="code"><i class="code-icon"></i><input type="text" id="nickname" placeholder="请输入昵称" ></label>
       <label for="password" class="password"><i class="password-icon"></i><input type="password" id="password" name="password" placeholder="请输入密码"><i class="eye-icon"></i></label>
       <label for="protocol" class="protocol"><input type="checkbox" value="know" id="protocol" class="protocol-input">我已阅读并同意<a class="protocol-link">《Next U 协议》</a></label>
       <button class="register-btn">确定</button>
     </form>
-    
+    <msg-dialog v-show="showDialog" :dialog-option="dialogOption" ref="dialog"></msg-dialog>
   </div>
 </template>
 <script>
-
+import MsgDialog from '../dialog/MsgDialog';
 export default {
+    data() {
+        return {
+            showDialog: false,
+            dialogOption: {
+                text: '你已经完成注册！马上开始NexU课程吧！',
+                confirmButtonText: '跳转到登录页'
+            }
+        }
+    },
     mounted() {
         this.validate();
     },
@@ -21,7 +30,6 @@ export default {
             $().ready(function() {
                 $(".register-btn").click(function() {
                     var val = $("#username").val();
-                    console.log(val)
                     if (/^((1[3-8][0-9])+\d{8})$/.test(val) || /^\w+@\w+(\.\w+){1,2}$/.test(val)) {
                         return;
                     } else {
@@ -51,9 +59,38 @@ export default {
                         }
                     }
                 });
-                
+            
+            })
+            this.register();  
+        },
+        register() {
+            let self = this;
+            let username = $("#username").val();
+            let password = $("#password").val();
+            let nickname = $("#nickname").val();
+            $.ajax({
+                type: 'POST',
+                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/search',
+                data: {
+                    "userid": username,
+                    "password": password,
+                    "nickname": nickname
+                }
+            }).done(function(res) {
+                if (res.code === 200) {
+                    self.showDialog = true;
+                    self.$refs.dialog.confirm().then(() => {
+                        self.$router.push({path: '/'});
+                        self.$emit("jumpLogin", true)
+                    })
+                }
+            }).fail(function(err) {
+                console.log(err)
             })
         }
+    },
+    components: {
+        MsgDialog
     }
 }
 </script>
@@ -153,5 +190,7 @@ export default {
     background: $green_bg;
   }
 }
-
+#username-error {
+    color: #f00;
+}
 </style>

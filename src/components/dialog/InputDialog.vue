@@ -3,9 +3,9 @@
         <div class="mask"></div>
         <div class="dialog-wrapper">
             <p class="tips">修改{{this.setkey}}为：</p>
-            <input type="text" :value="this.value">
+            <input type="text" v-model="this.value">
             <div class="dialog-footer">
-                <button class="submit"> 确定</button>
+                <button class="submit" @click="submit"> 确定</button>
                 <button class="cancel" @click="closeDialog">取消</button>
             </div>
         </div>
@@ -25,6 +25,9 @@ export default {
         },
         closeDialog() {
             this.show = false;
+        },
+        submit() {
+            console.log(this.value)
         }
     }
 }

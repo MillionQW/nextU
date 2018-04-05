@@ -9,7 +9,7 @@
             <router-link to="/" tag="div" class="signupTab" @click.native="switchTab(0)"><span :class="{active: this.signup}">登录</span></router-link>
             <router-link to="/register" tag="div" class="signinTab" @click.native="switchTab(1)"><span :class="{active: !this.signup}">注册</span></router-link>
           </div>
-          <router-view></router-view>
+          <router-view v-on:jumpLogin="jumpLogin"></router-view>
         </div>
       </main>
       <n-footer></n-footer>
@@ -26,6 +26,9 @@ export default {
   methods: {
     switchTab(num) {
       this.signup = num === 0 ? true : false;
+    },
+    jumpLogin(data) {
+      this.signup = data;
     }
   },
   components: {
