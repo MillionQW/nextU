@@ -33,6 +33,9 @@ export default {
   },
   components: {
     nFooter
+  },
+  mounted() {
+    this.signup = this.$route.path.indexOf('register') ? false : true;
   }
 }
 </script>

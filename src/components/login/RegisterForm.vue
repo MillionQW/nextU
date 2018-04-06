@@ -27,15 +27,19 @@ export default {
     },
     methods: {
         validate() {
+            let self = this;
             $().ready(function() {
-                $(".register-btn").click(function() {
+                $(".register-btn").click(function(e) {
                     var val = $("#username").val();
+                    e.preventDefault();
                     if (/^((1[3-8][0-9])+\d{8})$/.test(val) || /^\w+@\w+(\.\w+){1,2}$/.test(val)) {
+                        self.register(); 
                         return;
                     } else {
-                        $('.username input').append("<label>手机或邮箱格式不正确</label>");
+                        $('.username').append("<label class='user-error' style='color: #f00'>手机或邮箱格式不正确</label>");
                         return false;
                     }
+                   
                 })
                 $('.register-form').validate({
                     rules: {
@@ -61,7 +65,7 @@ export default {
                 });
             
             })
-            this.register();  
+             
         },
         register() {
             let self = this;
@@ -70,7 +74,7 @@ export default {
             let nickname = $("#nickname").val();
             $.ajax({
                 type: 'POST',
-                url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/search',
+                url: 'http://www.liuliuliuman.top:8080/user/add',
                 data: {
                     "userid": username,
                     "password": password,
