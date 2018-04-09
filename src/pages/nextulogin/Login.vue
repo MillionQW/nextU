@@ -35,7 +35,11 @@ export default {
     nFooter
   },
   mounted() {
-    this.signup = this.$route.path.indexOf('register') ? false : true;
+    if (this.$route.path.indexOf('register') !== -1) {
+      this.signup = false
+    } else {
+      this.signup = true;
+    }
   }
 }
 </script>

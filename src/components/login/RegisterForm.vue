@@ -23,6 +23,7 @@ export default {
         }
     },
     mounted() {
+        document.title = "注册 -NextU"
         this.validate();
     },
     methods: {
@@ -72,14 +73,14 @@ export default {
             let username = $("#username").val();
             let password = $("#password").val();
             let nickname = $("#nickname").val();
+            console.log(username,password,nickname)
+            let json = JSON.parse(`{"userid":"${username}","password":"${password}","nickname":"${nickname}"}`)
             $.ajax({
                 type: 'POST',
-                url: 'http://www.liuliuliuman.top:8080/user/add',
-                data: {
-                    "userid": username,
-                    "password": password,
-                    "nickname": nickname
-                }
+                dataType: 'json',
+                contentType: "application/json",
+                url: 'http://www.liuliuliuman.top:8081/user/add',
+                data: json
             }).done(function(res) {
                 if (res.code === 200) {
                     self.showDialog = true;

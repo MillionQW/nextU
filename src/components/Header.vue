@@ -1,4 +1,4 @@
-+<template>
+<template>
     <header class="header">
         <div class="header-top">
             <h1 class="logo">Next U</h1>
@@ -6,12 +6,17 @@
                 <input type="text" class="search-input" ref="searchInput" placeholder="搜索考研/BEC..." @keyup.enter="search">
                 <div class="search-icon" @click="search"><icon name="search" class="search-icon"></icon></div>
             </div>
-            <div class="login-area">
+            <div class="login-area" v-show="!username">
+                <ul>
+                    <li><a href="http://localhost:8081/nextulogin.html#/" target="_self" class="login">登录</a></li>
+                    <li><a href="">注册</a></li>
+                </ul>
+            </div>
+            <div class="login-area" v-show="username">
                 <ul>
                     <li class="user_card_box"><a href="" class="user_card"><img src="../assets/user.jpg" alt=""></a></li>
-                    <li><a href="" class="user">李明</a></li>
-                    <li><a href="">退出</a></li>
-                    
+                    <li><a href="" class="user">{{this.username}}</a></li>
+                    <li><a href="" @click="logout">退出</a></li>
                 </ul>
             </div>
         </div>
@@ -25,10 +30,24 @@ export default {
     components: {
         Icon
     },
+    data(){
+        return {
+            username: '',
+        }
+    },
+    mounted() {
+        if (localStorage.user) {
+            let userinfo = JSON.parse(localStorage.user);
+            this.username = userinfo.user.nickname;
+        }
+    },
     methods: {
         search() {
             let value = this.$refs.searchInput.value;
             window.open(`http://localhost:8081/search.html?search=${value}`)
+        },
+        logout() {
+            localStorage.clear('user')
         }
     }
 }

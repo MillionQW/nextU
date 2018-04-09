@@ -4,7 +4,7 @@
       <p><label for="username" class="username"><i class="user-icon"></i><input type="text" name="username" id="username" placeholder="请输入手机号码或邮箱"></label></p>
       <p><label for="passowrd" class="password"><i class="password-icon"></i><input type="password" name="password" id="password" placeholder="请输入密码"><i class="eye-icon"></i></label></p>
       <a class="forgetPsw">忘记密码</a>
-      <button class="login-btn">登录</button>
+      <button class="login-btn" @click.prevent="login">登录</button>
     </form>
     <div class="more-login">
       <h6>使用第三方帐号登录</h6>
@@ -43,6 +43,27 @@ export default {
         }
       });
     })
+    },
+    login() {
+      $.ajax({
+        type: 'POST',
+        url: 'http://www.liuliuliuman.top:8081/user/login',
+        data: {
+          userid: $('#username').val(),
+          password: $('#password').val()
+        }
+      }).done(function(res) {
+        if(res.code === 200) {
+          let storage = window.localStorage;
+          let user = JSON.stringify(res.data);
+          storage.setItem('user', user);
+          alert('登录成功');
+        } else if (res.code === 402) {
+          alert('密码错误');
+        } else {
+          alert('用户不存在');
+        }
+      })
     }    
   }
 }
