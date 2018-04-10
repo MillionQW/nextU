@@ -19,6 +19,7 @@
 <script>
 export default {
   mounted() {
+    document.title = "登录 -NextU"
     this.validate();
   },
   methods: {
@@ -58,6 +59,7 @@ export default {
           let user = JSON.stringify(res.data);
           storage.setItem('user', user);
           alert('登录成功');
+          window.open(window["_CONFIG"]["LIVEINDEX"], "_self");
         } else if (res.code === 402) {
           alert('密码错误');
         } else {

@@ -8,7 +8,7 @@
             </div>
             <div class="login-area" v-show="!username">
                 <ul>
-                    <li><a href="http://localhost:8081/nextulogin.html#/" target="_self" class="login">登录</a></li>
+                    <li><a :href="loginLink" target="_self" class="login">登录</a></li>
                     <li><a href="">注册</a></li>
                 </ul>
             </div>
@@ -33,6 +33,7 @@ export default {
     data(){
         return {
             username: '',
+            loginLink: window["_CONFIG"]["LOGIN"]
         }
     },
     mounted() {

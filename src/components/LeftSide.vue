@@ -5,7 +5,7 @@
                 <img src="../assets/user.jpg" alt="">
             </div>
             <ul>
-                <li><a href="">李明</a></li>
+                <li><a href="">{{this.username}}</a></li>
                 <li><a href="">LV 6</a></li>
                 <li><icon name="mars"></icon></li>
             </ul>
@@ -37,6 +37,13 @@ import Icon from 'vue-awesome/components/Icon'
 export default {
     data() {
         return {
+            username: '李明'
+        }
+    },
+    mounted() {
+        if (localStorage.user) {
+            let userinfo = JSON.parse(localStorage.user);
+            this.username = userinfo.user.nickname;
         }
     },
     components: {

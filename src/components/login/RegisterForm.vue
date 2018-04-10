@@ -73,14 +73,14 @@ export default {
             let username = $("#username").val();
             let password = $("#password").val();
             let nickname = $("#nickname").val();
-            console.log(username,password,nickname)
             let json = JSON.parse(`{"userid":"${username}","password":"${password}","nickname":"${nickname}"}`)
+            console.log(JSON.stringify(json))
             $.ajax({
                 type: 'POST',
-                dataType: 'json',
                 contentType: "application/json",
-                url: 'http://www.liuliuliuman.top:8081/user/add',
-                data: json
+                dataType: 'json',
+                url: 'http://39.108.152.157:8080/user',
+                data: JSON.stringify(json)
             }).done(function(res) {
                 if (res.code === 200) {
                     self.showDialog = true;
