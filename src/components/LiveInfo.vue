@@ -65,17 +65,16 @@ export default {
                 type: 'POST',
                 url: 'http://www.liuliuliuman.top:8081/livingroom/createLivingRoom'
             }).done(function(res) {
-                if (res.code === 200) {
-                    alert('创建房间成功');
-                    if (localStorage.user) {
-                        let storage = JSON.parse(localStorage.user);
-                        storage.user.isanchor = 1;
-                        storage.user.liveid = res.data.liveid;
-                        self.liveid = res.data.liveid;
-                        let stringUser = JSON.stringify(storage);
-                        localStorage.setItem('user', stringUser);
-                        self.isanchor = true;
-                    }
+                alert('创建房间成功');
+                if (localStorage.user) {
+                    let res = {data:{liveid:12}}
+                    let storage = JSON.parse(localStorage.user);
+                    storage.user.isanchor = 1;
+                    storage.user.liveid = res.data.liveid;
+                    self.liveid = res.data.liveid;
+                    let stringUser = JSON.stringify(storage);
+                    localStorage.setItem('user', stringUser);
+                    self.isanchor = true;
                 }
             })
             
@@ -99,6 +98,7 @@ export default {
             console.log(jsonString)
             $.ajax({
                 type: 'POST',
+                data: jsonString,
                 url: 'http://www.liuliuliuman.top:8081/livingroom/updateLivingRoomSetting'
             }).done(function(res) {
                 if (res.code === 200) {

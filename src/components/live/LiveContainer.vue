@@ -3,13 +3,13 @@
         <div class="room-head">
             <h2 class="lesson-title">{{room_info.title}}</h2>
             <div class="live-btn" @click.prevent="startLiving($event)">
-                <label class="switch-btn no-radius">
+                <label class="switch-btn no-radius" v-show="myRoom">
                     <input class="checked-switch" type="checkbox" v-model="closeLive" />
                     <span class="text-switch" data-yes="开始直播" data-no="关闭直播"></span> 
                     <span class="toggle-btn"></span> 
                 </label>
             </div>
-            <button class="live-flow" @click="getFlow">获取推流码</button>
+            <button class="live-flow" @click="getFlow" v-show="myRoom">获取推流码</button>
         </div>
         <Modal v-model="modal1"  title="直播信息">
             <p>rtmp地址：<Input v-model="initData.playUrlRtmp" readonly></Input></p>
@@ -44,10 +44,21 @@ export default {
             room_info: {},
             modal1: false,
             closeLive: false,   
+            liveid: 0,
+            myRoom: false
         }
     },
     created() {
         this.getInitData();
+    },
+    mounted() {
+        if (localStorage.user) {
+            let storage = localStorage.user;
+            let user = JSON.parse(storage).user;
+            let liveid = user.liveid;
+            this.liveid = liveid;
+        }
+        
     },
     watch:{
         initData: function() {
@@ -91,9 +102,18 @@ export default {
         },
         getInitData() {
             let self = this;
+            let url = window.location.href;
+            let index = url.indexOf('liveid=')+7;
+            let liveid = url.slice(index)
+            if (localStorage.user) {
+                let user = JSON.parse(localStorrage.user).user;
+                if (liveid == user.liveid) {
+                    self.myRoom = true;
+                }
+            }
             $.ajax({
                 type:'GET',
-                url: 'http://www.liuliuliuman.top:8081/livingroom/12',
+                url: `http://www.liuliuliuman.top:8081/livingroom/${liveid}`,
             }).done(function(res) {
                 if (res.code === 200) {
                    let initData = res.data;

@@ -62,7 +62,7 @@ export default {
             let self = this;
             $.ajax({
                 type: 'GET',
-                url: 'http://www.liuliuliuman.top:8081/livingroom/12',
+                url: 'http://www.liuliuliuman.top:8081/livingroom',
             }).done(function(res) {
                 if (res.code === 200) {
                    var data = res.data;
@@ -95,7 +95,7 @@ export default {
                  controlBarVisibility:"always",
                  useH5Prism:false,
                  useFlashPrism:true,
-                 source:"http://live.liuliuliuman.top/nextu/livestream.flv",
+                 source:"http://nextu-live-video-replay.oss-cn-shanghai.aliyuncs.com/nextu/record/2018-03-31/nextu/12/2018-03-31-08%3A57%3A13_2018-03-31-08%3A58%3A11.m3u8?Expires=1523461591&OSSAccessKeyId=LTAIP9KMVbGIcw56&Signature=gLCY6vY1CvCBUGngMyOfDvjwJ3c%3D",
                  cover:"",
                  skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
                         {"name":"H5Loading","align":"cc"},

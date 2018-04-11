@@ -15,7 +15,7 @@
             <div class="login-area" v-show="username">
                 <ul>
                     <li class="user_card_box"><a href="" class="user_card"><img src="../assets/user.jpg" alt=""></a></li>
-                    <li><a href="" class="user">{{this.username}}</a></li>
+                    <li><a :href="center" class="user">{{this.username}}</a></li>
                     <li><a href="" @click="logout">退出</a></li>
                 </ul>
             </div>
@@ -33,7 +33,8 @@ export default {
     data(){
         return {
             username: '',
-            loginLink: window["_CONFIG"]["LOGIN"]
+            loginLink: window["_CONFIG"]["LOGIN"],
+            center: window["_CONFIG"]["CENTER"]
         }
     },
     mounted() {
@@ -45,7 +46,8 @@ export default {
     methods: {
         search() {
             let value = this.$refs.searchInput.value;
-            window.open(`http://localhost:8081/search.html?search=${value}`)
+            let searchUrl = window["_CONFIG"]["SEARCH"];
+            window.open(`${searchUrl}${value}`)
         },
         logout() {
             localStorage.clear('user')

@@ -16,12 +16,12 @@
           </div>
           <div class="category-container clearfix">
             <h3 class="category" v-show="livingrooms">直播间</h3>
-            <div class="result-item"  v-for="(item, index) in this.livingrooms" :key="index">
+            <a class="result-item" :href="' http://www.liuliuliuman.top:8081/live?liveid='+item.liveid" target="_blank"  v-for="(item, index) in this.livingrooms" :key="index">
               <div class="result-cover"><img :src="item.imgUrl" alt=""></div>
               <h4 class="result-title" :title="item.title">{{item.title}}</h4>
               <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
               <p class="result-summary">{{item.description}}</p>
-            </div>
+            </a>
           </div>
           <div class="category-container clearfix">
             <h3 class="category" v-show="liveRecords">直播预告</h3>
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="category-container clearfix">
-            <h3 class="category" v-show="courses">直播预告</h3>
+            <h3 class="category" v-show="courses">课程</h3>
             <div class="result-item"  v-for="(item, index) in this.courses" :key="index">
               <div class="result-cover"><img :src="item.picture" alt=""></div>
               <h4 class="result-title" :title="item.title">{{item.name}}</h4>
@@ -63,7 +63,8 @@ export default {
       livePreviews: '',
       livingrooms: '',
       liveRecords: '',
-      courses: ''
+      courses: '',
+      searchUrl: window['_CONFIG']['SEARCH']
     }
   },
   components: {
@@ -85,10 +86,11 @@ export default {
     getSearchRes() {
       let self = this;
       let search = decodeURIComponent(location.search);
+      let searchUrl = window["_CONFIG"]["SEARCH"];
       search = this.handleSearchWord(search);
       $.ajax({
         type: 'POST',
-        url: `http://localhost:8081/livingroom/searchRel?search=${self.searchWord}`
+        url: `http://www.liuliuliuman.top:8081/livingroom/searchRel?search=${self.searchWord}`
       }).done(function(res) {
         if (res.code = 200) {
           let initData = res.data;
@@ -137,11 +139,13 @@ export default {
   margin: 10px 0;
 }
 .result-item {
+  display: inline-block;
   float: left;
   width: 220px;
   height: 300px;
   margin-right: 20px;
   margin-bottom: 20px;
+  color: #4d4d4d;
   background: #fff;
   border-radius: 6px;
   cursor: pointer;

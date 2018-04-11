@@ -2,21 +2,32 @@
     <nav class="side-nav">
         <ul>
             <li>
-                <a href="http://localhost:8081/home.html" class="index">首页</a>
+                <a :href="index" class="index">首页</a>
             </li>
             <li>
-                <a href="http://localhost:8081/live.html#/liveindex" class="live">直播</a>
+                <a :href="liveIndex" class="live">直播</a>
             </li>
             <li>
-                <a href="#" class="lesson">专项课程</a>
+                <a :href="lesson" class="lesson">专项课程</a>
             </li>
             <li>
-                <a href="#" class="help">互助</a>
+                <a :href="help" class="help">互助</a>
             </li>
         </ul>
     </nav>
 </template>
-<script></script>
+<script>
+export default {
+    data() {
+        return {
+            index: window['_CONFIG']['INDEX'],
+            liveIndex: window['_CONFIG']['_LIVEINDEX'],
+            lesson: window['_CONFIG']['LESSON'],
+            help: window['_CONFIG']['HELP']
+        }
+    }
+}
+</script>
 <style lang="scss" scoped>
 @import '../../CSS/colors.scss';
 @import '../../CSS/common.scss';
