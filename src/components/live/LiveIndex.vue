@@ -12,21 +12,21 @@
             </div>
             <div class="program-list">
                 <ul class="live-parade" v-show=this.showParade>
-                    <li class="live-item living"   v-for="(item, index) in this.recordsList">
+                    <li class="live-item living"   v-for="(item, index) in this.previewsList">
                         <div class="inner-item">
                             <span class="start-time">{{item.start}}</span>
                             <a href="" class="live-title">《{{item.title}}》</a>
-                            <div class="live-cover" ><img :src="item.recordImgUrl" alt=""></div>
+                            <div class="live-cover" ><img :src="item.previewImgUrl" alt=""></div>
                             <span class="play-btn">抢先看</span>
                         </div>
                     </li>
                 </ul>
                 <ul class="live-review" v-show=!this.showParade>
-                    <li class="live-item"  v-for="(item, index) in this.previewsList">
-                        <div class="inner-item">
+                    <li class="live-item"  v-for="(item, index) in this.recordsList">
+                        <div class="inner-item" :data-videoUrl="item.recordUrl" @click="playVideo">
                             <span class="start-time">{{item.start}}</span>
-                            <a href="" class="live-title">《{{item.title}}》</a>
-                            <div class="live-cover" ><img :src="item.previewImgUrl" alt=""></div>
+                            <a href="javascript:;" class="live-title">《{{item.title}}》</a>
+                            <div class="live-cover" ><img :src="item.recordImgUrl" alt=""></div>
                         </div>
                     </li>
                 </ul>
@@ -44,7 +44,8 @@ export default {
         return {
             recordsList: [],
             previewsList: [],
-            showParade: false
+            showParade: false,
+            firstVideo: ''
         }
         
     },
@@ -52,7 +53,12 @@ export default {
         this.getInitData();
     },
     mounted() {
-        this.playLiving();
+        
+    },
+    watch: {
+        firstVideo: function() {
+            this.playLiving(this.firstVideo);
+        }
     },
     methods: {
         switchList(boolean) {
@@ -62,12 +68,14 @@ export default {
             let self = this;
             $.ajax({
                 type: 'GET',
-                url: 'http://www.liuliuliuman.top:8081/livingroom',
+                url: 'http://www.liuliuliuman.top:8081/livingroom/',
             }).done(function(res) {
                 if (res.code === 200) {
                    var data = res.data;
                    var records = data.records;
                    var previews = data.previews;
+                   
+                   self.firstVideo = records[0].recordUrl;
                    for (var s in previews) {
                         var start = previews[s].start.slice(10,16)
                         previews[s].start = start
@@ -83,8 +91,9 @@ export default {
                 console.log(err);
             })
         },
-        playLiving() {
-            // 初始化播放器
+        playLiving(url) {
+        var self = this;
+        // 初始化播放器
         var player = new Aliplayer({
             id: "J_prismPlayer",
                  autoplay: true,
@@ -95,7 +104,7 @@ export default {
                  controlBarVisibility:"always",
                  useH5Prism:false,
                  useFlashPrism:true,
-                 source:"http://nextu-live-video-replay.oss-cn-shanghai.aliyuncs.com/nextu/record/2018-03-31/nextu/12/2018-03-31-08%3A57%3A13_2018-03-31-08%3A58%3A11.m3u8?Expires=1523461591&OSSAccessKeyId=LTAIP9KMVbGIcw56&Signature=gLCY6vY1CvCBUGngMyOfDvjwJ3c%3D",
+                 source: url,
                  cover:"",
                  skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
                         {"name":"H5Loading","align":"cc"},
@@ -112,10 +121,17 @@ export default {
                         {"name":"fullZoom","align":"cc"},
                         {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
                         {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]}]
-                 },function(player){
+                },function(player){
                     console.log("播放器创建了。");
-                  }
+                }
             );
+        },
+        playVideo() {
+            var self = this;
+            $('.inner-item').click(function(e){
+                let url = e.target.getAttribute('data-videoUrl');
+                self.playLiving(url);
+            })
         }
     }
     

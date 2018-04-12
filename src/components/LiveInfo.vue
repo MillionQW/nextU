@@ -3,7 +3,7 @@
     <div class="container">
         <h3><icon name="camera-retro" class="camera"></icon>我要直播</h3>
         <ul class="info-form" v-show="isanchor">
-            <li>房间ID：<span class="liveid">{{this.liveid}}</span><a href="" class="btn-enterroom">进入直播间</a></li>
+            <li>房间ID：<span class="liveid"></span><a href="" class="btn-enterroom">进入直播间</a></li>
             <li>房间标题：<input id="title"/></li>
             <li>课程名称：<input id="subject_name" /></li> 
             <li>直播类别：<input id="domain_name"/></li>  
@@ -43,6 +43,9 @@ export default {
     mounted() {
         document.title = "创建房间";
         this.isAnchor();
+        if (this.isAnchor) {
+            this.getRoomInfo();
+        }
     },
     methods:　{
         modify(type, value) {
@@ -67,7 +70,6 @@ export default {
             }).done(function(res) {
                 alert('创建房间成功');
                 if (localStorage.user) {
-                    let res = {data:{liveid:12}}
                     let storage = JSON.parse(localStorage.user);
                     storage.user.isanchor = 1;
                     storage.user.liveid = res.data.liveid;
@@ -78,6 +80,35 @@ export default {
                 }
             })
             
+        },
+        getRoomInfo() {
+            let self = this;
+            let liveid;
+            let description;
+            let domainName;
+            let imgUrl;
+            let title;
+            let subjectName;
+            $.ajax({
+                type: 'GET',
+                url: 'http://www.liuliuliuman.top:8081/livingroom/livingRoomSetting'
+            }).done(function(res) {
+                if (res.code === 200) {
+                    let data = res.data;
+                    liveid = data.liveid;
+                    description = data.description;
+                    domainName = data.domainName;
+                    imgUrl = data.domainName;
+                    title = data.title;
+                    subjectName = data.subjectName;
+                }
+            })
+            $('#title').html(title);
+            $('.liveid').html(liveid);
+            $('#subject_name').html(subjectName);
+            $('#domain_name').html(domainName);
+            $('#img_url').html(imgUrl);
+            $('#description').html(description);
         },
         settingRoom() {
             let self = this;
@@ -98,11 +129,14 @@ export default {
             console.log(jsonString)
             $.ajax({
                 type: 'POST',
+                contentType: "application/json",
                 data: jsonString,
                 url: 'http://www.liuliuliuman.top:8081/livingroom/updateLivingRoomSetting'
             }).done(function(res) {
                 if (res.code === 200) {
                     alert('设置房间信息成功')
+                } else {
+                    alert('设置房间出错')
                 }
             })
         }

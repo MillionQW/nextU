@@ -6,7 +6,7 @@
       <div class="search-container">
           <h2 class="search-title">搜索：{{this.searchWord}}</h2>
           <div class="category-container clearfix">
-            <h3 class="category" v-show="livePreviews">直播回顾</h3>
+            <h3 class="category" v-show="livePreviews">直播预告</h3>
             <div class="result-item"  v-for="(item, index) in this.livePreviews" :key="index">
               <div class="result-cover"><img :src="item.previewImgUrl" alt=""></div>
               <h4 class="result-title" :title="item.title">{{item.title}}</h4>
@@ -24,7 +24,7 @@
             </a>
           </div>
           <div class="category-container clearfix">
-            <h3 class="category" v-show="liveRecords">直播预告</h3>
+            <h3 class="category" v-show="liveRecords">直播回顾</h3>
             <div class="result-item"  v-for="(item, index) in this.liveRecords" :key="index">
               <div class="result-cover"><img :src="item.recordImgUrl" alt=""></div>
               <h4 class="result-title" :title="item.title">{{item.title}}</h4>

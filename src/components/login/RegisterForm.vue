@@ -79,7 +79,7 @@ export default {
                 type: 'POST',
                 contentType: "application/json",
                 dataType: 'json',
-                url: 'http://39.108.152.157:8080/user',
+                url: 'http://www.liuliuliuman.top:8081/user/add',
                 data: JSON.stringify(json)
             }).done(function(res) {
                 if (res.code === 200) {

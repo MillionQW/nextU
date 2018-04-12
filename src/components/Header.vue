@@ -9,7 +9,7 @@
             <div class="login-area" v-show="!username">
                 <ul>
                     <li><a :href="loginLink" target="_self" class="login">登录</a></li>
-                    <li><a href="">注册</a></li>
+                    <li><a href="http://www.liuliuliuman.top:8081/nextulogin.html#/register">注册</a></li>
                 </ul>
             </div>
             <div class="login-area" v-show="username">
@@ -34,7 +34,7 @@ export default {
         return {
             username: '',
             loginLink: window["_CONFIG"]["LOGIN"],
-            center: window["_CONFIG"]["CENTER"]
+            center: window["_CONFIG"]["CENTER"],
         }
     },
     mounted() {
