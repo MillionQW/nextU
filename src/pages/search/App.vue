@@ -19,7 +19,7 @@
             <a class="result-item" :href="' http://www.liuliuliuman.top:8081/live?liveid='+item.liveid" target="_blank"  v-for="(item, index) in this.livingrooms" :key="index">
               <div class="result-cover"><img :src="item.imgUrl" alt=""></div>
               <h4 class="result-title" :title="item.title">{{item.title}}</h4>
-              <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
+              <p class="result-teacher"><icon name="user-o"></icon>{{item.nickname}}</p>
               <p class="result-summary">{{item.description}}</p>
             </a>
           </div>
@@ -28,7 +28,7 @@
             <div class="result-item"  v-for="(item, index) in this.liveRecords" :key="index">
               <div class="result-cover"><img :src="item.recordImgUrl" alt=""></div>
               <h4 class="result-title" :title="item.title">{{item.title}}</h4>
-              <p class="result-teacher"><icon name="user-o"></icon>王教授</p>
+              <p class="result-teacher"><icon name="user-o"></icon>{{item.nickname}}</p>
               <p class="result-summary">{{item.description}}</p>
             </div>
           </div>
@@ -96,8 +96,25 @@ export default {
           let initData = res.data;
           self.livePreviews = initData.livePreviews;
           self.livingrooms = initData.livingrooms;
-          self.liveRecords = initData.liveRecords;
           self.courses = initData.courses;
+          let liveRecords = initData.liveRecords;
+          let length = liveRecords.length / 3;
+          let recordsList = [];
+          if (self.isMobile()) {
+              let j = 0;
+              for (let i = 0; i < length; i++) {
+                  recordsList.push(liveRecords[j])
+                  j += 3;
+              } 
+          } else {
+              let j = 2;
+              for (let i = 0; i < length; i++) {
+                  recordsList.push(liveRecords[j])
+                  j += 3;
+              } 
+          }
+          self.liveRecords = recordsList;
+          console.log(recordsList)
         }
       }).fail(function(err) {
         console.log(err);
@@ -105,6 +122,26 @@ export default {
     },
     setTitle() {
       document.title = `搜索 - ${this.searchWord}`
+    },
+    isMobile() {
+      var ua = navigator.userAgent.toLowerCase();
+      var StringPhoneReg = "\\b(ip(hone|od)|android|opera m(ob|in)i"
+          + "|windows (phone|ce)|blackberry"
+          + "|s(ymbian|eries60|amsung)|p(laybook|alm|rofile/midp"
+          + "|laystation portable)|nokia|fennec|htc[-_]"
+          + "|mobile|up.browser|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+              var StringTableReg = "\\b(ipad|tablet|(Nexus 7)|up.browser"
+          + "|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+
+      var isIphone = ua.match(StringPhoneReg),
+          isTable = ua.match(StringTableReg),
+          isMobile = isIphone || isTable;
+
+          if(isMobile) {
+              return true;
+          }else {
+              return false;
+          }
     }
   }
 }

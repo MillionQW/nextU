@@ -6,7 +6,7 @@
             <div class="room-head-info-cover">
                 <img src="../../../assets/user.jpg" alt="">
             </div>
-            <div class="room-head-info-hostname"><a>王教授</a></div>
+            <div class="room-head-info-hostname"><a>{{this.nickname}}</a></div>
             <div class="personnal-homepage"><a href="#">个人主页</a></div>
             <div class="room-viewer">
                 <span class="num">4255</span>人观看
@@ -67,6 +67,7 @@ import Icon from 'vue-awesome/components/Icon'
 
 export default {
     name: 'RoomChatBox',
+    props: ['nickname'],
     data() {
         return {
             isMessage: true,

@@ -44,7 +44,7 @@ export default {
                 data: {
                     liveid: 12
                 },
-                url: 'http://www.liuliuliuman.top:8081/liverecord/byLiveId'
+                url: 'http://www.liuliuliuman.top:8081/livepreview/byLiveId'
             }).done(function(res) {
                 if (res.code === 200) {
                     let initData = res.data;
@@ -92,6 +92,9 @@ export default {
         float: left;
         width: 370px;
         height: 260px;
+        img {
+            width: 100%;
+        }
     }
     .video-title {
         a {

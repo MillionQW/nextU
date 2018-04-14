@@ -30,7 +30,6 @@ export default {
     methods: {
         toggleArea(isParade) {
             this.isParade = isParade;
-            console.log(this.isParade)
         }
     },
     components: {

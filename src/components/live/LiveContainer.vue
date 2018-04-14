@@ -12,11 +12,11 @@
             <button class="live-flow" @click="getFlow" v-show="myRoom">获取推流码</button>
         </div>
         <Modal v-model="modal1"  title="直播信息">
-            <p>rtmp地址：<Input v-model="initData.playUrlRtmp" readonly></Input></p>
+            <p>直播地址：<Input v-model="initData.play_flow_url" readonly></Input></p>
             <p>直播码：<Input v-model="initData.streamKey" type="textarea"></Input></p>
         </Modal>
         <div  class="prism-player" id="J_prismPlayer"></div>
-        <room-chatbox></room-chatbox>
+        <room-chatbox :nickname="room_info.nickname"></room-chatbox>
         <div class="play-tools">
             <ul>
                 <li><a href="#"><icon name="share-square-o"></icon>分享</a></li>
@@ -42,10 +42,11 @@ export default {
         return {
             initData: {},
             room_info: {},
+            livingFlow: '',
             modal1: false,
             closeLive: false,   
             liveid: 0,
-            myRoom: false
+            myRoom: true
         }
     },
     created() {
@@ -56,17 +57,16 @@ export default {
             let storage = localStorage.user;
             let user = JSON.parse(storage).user;
             let liveid = user.liveid;
-            this.liveid = liveid;
         }
-        
     },
     watch:{
         initData: function() {
-            this.initPlayer();
+            this.initPlayer(this.livingFlow);
+            document.title = this.room_info.title;
         }
     },
     methods: {
-        initPlayer() {
+        initPlayer(url) {
             // 初始化播放器
             var player = new Aliplayer({
             id: "J_prismPlayer",
@@ -78,7 +78,7 @@ export default {
                  controlBarVisibility:"always",
                  useH5Prism:false,
                  useFlashPrism:true,
-                 source: this.initData.playUrlFlv,
+                 source: url,
                  cover:"",
                  skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
                         {"name":"H5Loading","align":"cc"},
@@ -104,10 +104,10 @@ export default {
             let self = this;
             let url = window.location.href;
             let index = url.indexOf('liveid=')+7;
-            let liveid = url.slice(index)
+            let liveid = url.slice(index);
             if (index === 6) liveid = 12;
             if (localStorage.user) {
-                let user = JSON.parse(localStorrage.user).user;
+                let user = JSON.parse(localStorage.user).user;
                 if (liveid == user.liveid) {
                     self.myRoom = true;
                 }
@@ -120,7 +120,10 @@ export default {
                    let initData = res.data;
                    let room_info = {};
                    self.initData = initData;
-                   self.room_info = initData.room_info
+                   self.room_info = initData.room_info;
+                   self.myRoom = initData.isMyRoom ? true : false;
+                   self.liveid = self.room_info.liveid;
+                   self.livingFlow = self.isMobile() ? initData.playUrlM3u8 : initData.playUrlRtmp;
                 }
             }).fail(function(err) {
                 console.log(err);
@@ -136,7 +139,7 @@ export default {
                 $.ajax({
                     type:'POST',
                     url: 'http://www.liuliuliuman.top:8081/livingroom/liveStreamOpen',
-                    data: {"liveid": 12},
+                    data: {"liveid": `${self.liveid}`},
                     dataType: 'json'
                 }).fail(function(err) {
                     console.log(err);
@@ -145,14 +148,35 @@ export default {
                 $.ajax({
                     type:'POST',
                     url: 'http://www.liuliuliuman.top:8081/livingroom/liveStreamClose',
-                    data: {"jsonstring": '{"liveid":"12","nickename":"abc","domain_name":"数学","subject_name":"微积分","title":"大学要好好学数学","description":"刘德华改行教数学\n与张学友同框\n直播\n更多精彩尽在@nextu","record_img_url":".../aaa/aaa.jpg"}'},
+                    data: {"jsonstring": `{"liveid":${self.liveid},"nickename":"abc","domain_name":"数学","subject_name":"微积分","title":"大学要好好学数学","description":"刘德华改行教数学\n与张学友同框\n直播\n更多精彩尽在@nextu","record_img_url":".../aaa/aaa.jpg"}`},
                     dataType: 'json'
                 }).fail(function(err) {
                     console.log(err);
                 })
             }
             
+        },
+        isMobile() {
+            var ua = navigator.userAgent.toLowerCase();
+            var StringPhoneReg = "\\b(ip(hone|od)|android|opera m(ob|in)i"
+                + "|windows (phone|ce)|blackberry"
+                + "|s(ymbian|eries60|amsung)|p(laybook|alm|rofile/midp"
+                + "|laystation portable)|nokia|fennec|htc[-_]"
+                + "|mobile|up.browser|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+                    var StringTableReg = "\\b(ipad|tablet|(Nexus 7)|up.browser"
+                + "|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+
+            var isIphone = ua.match(StringPhoneReg),
+                isTable = ua.match(StringTableReg),
+                isMobile = isIphone || isTable;
+
+                if(isMobile) {
+                    return true;
+                }else {
+                    return false;
+                }
         }
+        
     },
 }
 </script>

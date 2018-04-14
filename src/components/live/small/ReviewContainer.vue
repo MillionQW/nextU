@@ -2,7 +2,7 @@
     <div class="parade-container">
         <ul>
             <li class="video-item" v-for="(item, index) in this.initData">
-                <div class="video-cover"><img :src="item.previewImgUrl" alt=""></div>
+                <div class="video-cover"><img :src="item.recordImgUrl" alt=""></div>
                 <h3 class="video-title"><a href="">{{item.title}}</a></h3>
                 <span class="begin-time"><icon name="clock-o"></icon>开课时间：{{item.start}}</span>
                 
@@ -44,13 +44,49 @@ export default {
                 data: {
                     liveid: 12
                 },
-                url: 'http://www.liuliuliuman.top:8081/livepreview/byLiveId'
+                url: 'http://www.liuliuliuman.top:8081/liverecord/byLiveId'
             }).done(function(res) {
                 if (res.code === 200) {
-                    let initData = res.data;
-                    self.initData = initData;
+                    let records = res.data;
+                    let recordsList = [];console.log(records)
+                    let length = records.length / 3;
+                    if (self.isMobile()) {
+                        let j = 0;
+                        for (let i = 0; i < length; i++) {
+                            recordsList.push(records[j])
+                            j += 3;
+                        } 
+                    } else {
+                        let j = 2;
+                        for (let i = 0; i < length; i++) {
+                            recordsList.push(records[j])
+                            j += 3;
+                        } 
+                    }
+                    self.initData = recordsList;
+                    console.log(self.initData)
                 }
             })
+        },
+        isMobile() {
+            var ua = navigator.userAgent.toLowerCase();
+            var StringPhoneReg = "\\b(ip(hone|od)|android|opera m(ob|in)i"
+                + "|windows (phone|ce)|blackberry"
+                + "|s(ymbian|eries60|amsung)|p(laybook|alm|rofile/midp"
+                + "|laystation portable)|nokia|fennec|htc[-_]"
+                + "|mobile|up.browser|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+                    var StringTableReg = "\\b(ipad|tablet|(Nexus 7)|up.browser"
+                + "|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+
+            var isIphone = ua.match(StringPhoneReg),
+                isTable = ua.match(StringTableReg),
+                isMobile = isIphone || isTable;
+
+                if(isMobile) {
+                    return true;
+                }else {
+                    return false;
+                }
         }
     }
 }
@@ -88,6 +124,9 @@ export default {
         float: left;
         width: 370px;
         height: 260px;
+        img {
+            width: 100%;
+        }
     }
     .video-title {
         a {

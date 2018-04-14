@@ -34,7 +34,8 @@ export default {
             setkey: '',
             value: '',
             isanchor: false,
-            liveid: 0
+            liveid: 0,
+            myRoomUrl: ''
         }
     },
     components: {
@@ -43,7 +44,7 @@ export default {
     mounted() {
         document.title = "创建房间";
         this.isAnchor();
-        if (this.isAnchor) {
+        if (this.isanchor) {
             this.getRoomInfo();
         }
     },
@@ -92,23 +93,30 @@ export default {
             $.ajax({
                 type: 'GET',
                 url: 'http://www.liuliuliuman.top:8081/livingroom/livingRoomSetting'
+                // url: 'https://easy-mock.com/mock/5a844150e92b195f8f13fad6/example/livingroomsetting'
             }).done(function(res) {
                 if (res.code === 200) {
+                    console.log(res)
                     let data = res.data;
                     liveid = data.liveid;
+                    self.liveid = liveid;
                     description = data.description;
                     domainName = data.domainName;
                     imgUrl = data.domainName;
                     title = data.title;
                     subjectName = data.subjectName;
+                    let url =  `http://www.liuliuliuman.top:8081/live?liveid=${liveid}`;
+                    $('#title').val(title);
+                    $('.liveid').html(liveid);
+                    $('#subject_name').val(subjectName);
+                    $('#domain_name').val(domainName);
+                    $('#img_url').val(imgUrl);
+                    $('#description').val(description);
+                    $('.btn-enterroom').attr('href', url);
                 }
             })
-            $('#title').html(title);
-            $('.liveid').html(liveid);
-            $('#subject_name').html(subjectName);
-            $('#domain_name').html(domainName);
-            $('#img_url').html(imgUrl);
-            $('#description').html(description);
+           
+            
         },
         settingRoom() {
             let self = this;
@@ -129,8 +137,7 @@ export default {
             console.log(jsonString)
             $.ajax({
                 type: 'POST',
-                contentType: "application/json",
-                data: jsonString,
+                data: {"jsonstring": jsonString},
                 url: 'http://www.liuliuliuman.top:8081/livingroom/updateLivingRoomSetting'
             }).done(function(res) {
                 if (res.code === 200) {
@@ -188,6 +195,7 @@ h3 {
         }
         .btn-enterroom {
             padding: 1px 7px;
+            margin-left: 30px;
             color: #5cc591;
             border: 1px solid #5cc591;
             border-radius: 10px;

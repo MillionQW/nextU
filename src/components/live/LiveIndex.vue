@@ -36,8 +36,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import {mapGetters} from 'vuex'
-
+import { mapGetters } from 'vuex'
 
 export default {
     data() {
@@ -45,7 +44,7 @@ export default {
             recordsList: [],
             previewsList: [],
             showParade: false,
-            firstVideo: ''
+            firstVideo: '',
         }
         
     },
@@ -71,11 +70,25 @@ export default {
                 url: 'http://www.liuliuliuman.top:8081/livingroom/',
             }).done(function(res) {
                 if (res.code === 200) {
-                   var data = res.data;
-                   var records = data.records;
+                    var data = res.data;
+                    var records = data.records;
+                    let recordsList = [];
+                    let length = records.length / 3;
+                    if (self.isMobile()) {
+                        let j = 0;
+                        for (let i = 0; i < length; i++) {
+                            recordsList.push(records[j])
+                            j += 3;
+                        } 
+                    } else {
+                        let j = 2;
+                        for (let i = 0; i < length; i++) {
+                            recordsList.push(records[j])
+                            j += 3;
+                        } 
+                    }
                    var previews = data.previews;
-                   
-                   self.firstVideo = records[0].recordUrl;
+                   self.firstVideo = self.isMobile() ? records[0].recordUrl : records[2].recordUrl
                    for (var s in previews) {
                         var start = previews[s].start.slice(10,16)
                         previews[s].start = start
@@ -85,54 +98,72 @@ export default {
                         var start = records[s].start.slice(10,16)
                         records[s].start = start
                    }
-                   self.recordsList = records;
+                   self.recordsList = recordsList;
                 }
             }).fail(function(err) {
                 console.log(err);
             })
         },
         playLiving(url) {
-        var self = this;
-        // 初始化播放器
-        var player = new Aliplayer({
-            id: "J_prismPlayer",
-                 autoplay: true,
-                 isLive:true,
-                 playsinline:true,
-                 width:"792px",
-                 height:"600px",
-                 controlBarVisibility:"always",
-                 useH5Prism:false,
-                 useFlashPrism:true,
-                 source: url,
-                 cover:"",
-                 skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
-                        {"name":"H5Loading","align":"cc"},
-                        {"name":"errorDisplay","align":"tlabs","x":0,"y":0},
-                        {"name":"infoDisplay","align":"cc"},
-                        {"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
-                        {"name":"playButton","align":"tl","x":15,"y":26},
-                        {"name":"fullScreenButton","align":"tr","x":20,"y":25},
-                        {"name":"timeDisplay","align":"tl","x":10,"y":24},
-                        {"name":"setButton","align":"tr","x":20,"y":25},
-                        {"name":"streamButton","align":"tr","x":20,"y":23},
-                        {"name":"volume","align":"tr","x":20,"y":25}]},
-                        {"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6},
-                        {"name":"fullZoom","align":"cc"},
-                        {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
-                        {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]}]
-                },function(player){
-                    console.log("播放器创建了。");
-                }
-            );
-        },
-        playVideo() {
             var self = this;
-            $('.inner-item').click(function(e){
-                let url = e.target.getAttribute('data-videoUrl');
-                self.playLiving(url);
-            })
-        }
+            // 初始化播放器
+            var player = new Aliplayer({
+                id: "J_prismPlayer",
+                    autoplay: true,
+                    isLive:true,
+                    playsinline:true,
+                    width:"792px",
+                    height:"600px",
+                    controlBarVisibility:"always",
+                    useH5Prism:false,
+                    useFlashPrism:true,
+                    source: url,
+                    cover:"",
+                    skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
+                            {"name":"H5Loading","align":"cc"},
+                            {"name":"errorDisplay","align":"tlabs","x":0,"y":0},
+                            {"name":"infoDisplay","align":"cc"},
+                            {"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
+                            {"name":"playButton","align":"tl","x":15,"y":26},
+                            {"name":"fullScreenButton","align":"tr","x":20,"y":25},
+                            {"name":"timeDisplay","align":"tl","x":10,"y":24},
+                            {"name":"setButton","align":"tr","x":20,"y":25},
+                            {"name":"streamButton","align":"tr","x":20,"y":23},
+                            {"name":"volume","align":"tr","x":20,"y":25}]},
+                            {"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6},
+                            {"name":"fullZoom","align":"cc"},
+                            {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
+                            {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]}]
+                    },function(player){
+                        console.log("播放器创建了。");
+                    }
+                );
+        },
+        playVideo(e) {
+            let url = e.currentTarget.getAttribute('data-videoUrl');
+            console.log(url)
+            this.playLiving(url)
+        },
+        isMobile() {
+            var ua = navigator.userAgent.toLowerCase();
+            var StringPhoneReg = "\\b(ip(hone|od)|android|opera m(ob|in)i"
+                + "|windows (phone|ce)|blackberry"
+                + "|s(ymbian|eries60|amsung)|p(laybook|alm|rofile/midp"
+                + "|laystation portable)|nokia|fennec|htc[-_]"
+                + "|mobile|up.browser|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+                    var StringTableReg = "\\b(ipad|tablet|(Nexus 7)|up.browser"
+                + "|[1-4][0-9]{2}x[1-4][0-9]{2})\\b";
+
+            var isIphone = ua.match(StringPhoneReg),
+                isTable = ua.match(StringTableReg),
+                isMobile = isIphone || isTable;
+
+                if(isMobile) {
+                    return true;
+                }else {
+                    return false;
+                }
+        }   
     }
     
 }
