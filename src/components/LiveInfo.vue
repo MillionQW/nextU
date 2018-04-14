@@ -134,7 +134,6 @@ export default {
                 "description": desc,
             }
             let jsonString = JSON.stringify(json);
-            console.log(jsonString)
             $.ajax({
                 type: 'POST',
                 data: {"jsonstring": jsonString},

@@ -148,7 +148,7 @@ export default {
                 $.ajax({
                     type:'POST',
                     url: 'http://www.liuliuliuman.top:8081/livingroom/liveStreamClose',
-                    data: {"jsonstring": `{"liveid":${self.liveid},"nickename":"abc","domain_name":"数学","subject_name":"微积分","title":"大学要好好学数学","description":"刘德华改行教数学\n与张学友同框\n直播\n更多精彩尽在@nextu","record_img_url":".../aaa/aaa.jpg"}`},
+                    data: {"jsonstring": `{"liveid":${self.liveid},"nickename":${self.room_info.nickname},"domain_name":${self.room_info.domainName},"subject_name":${self.room_info.subjectName}","title":${self.room_info.title},"description":${self.room_info.description},"record_img_url":${self.room_info.imgUrl}}`},
                     dataType: 'json'
                 }).fail(function(err) {
                     console.log(err);

@@ -116,7 +116,7 @@ export default {
                     height:"600px",
                     controlBarVisibility:"always",
                     useH5Prism:false,
-                    useFlashPrism:true,
+                    useFlashPrism:false,
                     source: url,
                     cover:"",
                     skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
@@ -140,8 +140,9 @@ export default {
                 );
         },
         playVideo(e) {
+            $('#J_prismPlayer').remove();
+            $('.program-wrap').before('<div  class="prism-player" id="J_prismPlayer" style="float:left;position:relative;z-index:2"></div>')
             let url = e.currentTarget.getAttribute('data-videoUrl');
-            console.log(url)
             this.playLiving(url)
         },
         isMobile() {
