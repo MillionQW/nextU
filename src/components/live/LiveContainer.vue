@@ -12,7 +12,7 @@
             <button class="live-flow" @click="getFlow" v-show="myRoom">获取推流码</button>
         </div>
         <Modal v-model="modal1"  title="直播信息">
-            <p>直播地址：<Input v-model="initData.play_flow_url" readonly></Input></p>
+            <p>直播地址：<Input v-model="initData.push_flow_url" readonly></Input></p>
             <p>直播码：<Input v-model="initData.streamKey" type="textarea"></Input></p>
         </Modal>
         <div  class="prism-player" id="J_prismPlayer"></div>
