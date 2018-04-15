@@ -56,7 +56,7 @@ export default {
     },
     watch: {
         firstVideo: function() {
-            this.playLiving(this.firstVideo);
+            this.playLiving(this.firstVideo, false);
         }
     },
     methods: {
@@ -104,13 +104,13 @@ export default {
                 console.log(err);
             })
         },
-        playLiving(url) {
+        playLiving(url, boolean) {
             var self = this;
             // 初始化播放器
             var player = new Aliplayer({
                 id: "J_prismPlayer",
                     autoplay: true,
-                    isLive:true,
+                    isLive: boolean,
                     playsinline:true,
                     width:"792px",
                     height:"600px",
@@ -143,7 +143,7 @@ export default {
             $('#J_prismPlayer').remove();
             $('.program-wrap').before('<div  class="prism-player" id="J_prismPlayer" style="float:left;position:relative;z-index:2"></div>')
             let url = e.currentTarget.getAttribute('data-videoUrl');
-            this.playLiving(url)
+            this.playLiving(url, false)
         },
         isMobile() {
             var ua = navigator.userAgent.toLowerCase();

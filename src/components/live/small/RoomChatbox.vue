@@ -250,7 +250,7 @@ export default {
             position: absolute;
             top: 0;
             left: 47px;
-            width: 76%;
+            width: 89%;
             height: 405px;
             padding-right: 13%;
             overflow: auto;

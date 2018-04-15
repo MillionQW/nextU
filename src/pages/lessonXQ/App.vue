@@ -26,9 +26,10 @@
           <ul class="lesson-content">
             <li class="lesson-charpter" v-for="(item, index) in content" :key="index">
               {{item.title}}
-              <ul>
-                <li v-for="(item, index) in item.section" :key="index">
+              <ul class="lesson-section">
+                <li v-for="(item, index) in item.section" :key="index"><a>
                   第{{index+1}}课时 {{item.title}}
+                  <span class="lesson-time">{{item.time}}</span></a>
                 </li>
               </ul>
             </li>
@@ -149,6 +150,7 @@ export default {
 .lessonXQ-left-container {
   width: 835px;
   margin-top: 15px;
+  margin-bottom: 50px;
   overflow: hidden;
   background: #fff;
   .lesson-nav {
@@ -163,6 +165,24 @@ export default {
       font-weight: bold;
       &.active {
         color: #396;
+      }
+    }
+  }
+  .lesson-container {
+    padding: 20px 0 28px 66px;
+    .lesson-charpter {
+      font-weight: bold;
+      .lesson-section {
+        padding-left: 30px;
+        color: #878787;
+        font-weight: normal;
+        li {
+          padding: 10px 0 10px 0;
+          .lesson-time {
+            float: right;
+            padding-right: 40px;
+          }
+        }
       }
     }
   }

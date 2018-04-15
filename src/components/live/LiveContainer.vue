@@ -71,7 +71,7 @@ export default {
             var player = new Aliplayer({
             id: "J_prismPlayer",
                  autoplay: true,
-                 isLive:true,
+                 isLive: true,
                  playsinline:true,
                  width:"792px",
                  height:"600px",
@@ -145,10 +145,21 @@ export default {
                     console.log(err);
                 })
             } else {
+                let json = {
+                    "liveid": self.room_info.liveid,
+                    "title": self.room_info.title,
+                    "nickname": self.room_info.nickname,
+                    "subject_name": self.room_info.subjectName,
+                    "domain_name": self.room_info.domainName,
+                    "record_img_url": self.room_info.imgUrl,
+                    "description": self.room_info.description
+                };
+                let jsonString = JSON.stringify(json);
+                console.log(jsonString);
                 $.ajax({
                     type:'POST',
                     url: 'http://www.liuliuliuman.top:8081/livingroom/liveStreamClose',
-                    data: {"jsonstring": `{"liveid":${self.liveid},"nickename":${self.room_info.nickname},"domain_name":${self.room_info.domainName},"subject_name":${self.room_info.subjectName}","title":${self.room_info.title},"description":${self.room_info.description},"record_img_url":${self.room_info.imgUrl}}`},
+                    data: {"jsonstring1": jsonString},
                     dataType: 'json'
                 }).fail(function(err) {
                     console.log(err);
