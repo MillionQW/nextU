@@ -289,6 +289,7 @@ export default {
     width: 355px;
     height: 250px;
     margin-top: 20px;
+    margin-bottom: 20px;
     background: #fff;
     .relate-caption {
       padding: 18px;
