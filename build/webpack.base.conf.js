@@ -20,6 +20,7 @@ module.exports = {
     nextulogin: './src/pages/nextulogin/nextulogin_main.js',
     lessonXQ: './src/pages/lessonXQ/lessonXQ_main.js',
     search: './src/pages/search/search_main.js',
+    about: './src/pages/about/about_main.js',
   },
   output: {
     path: config.build.assetsRoot,

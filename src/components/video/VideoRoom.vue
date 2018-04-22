@@ -1,5 +1,6 @@
 <template>
 <section class="lv-container">
+    <h4 class="title">{{courseSection.name}}</h4>
     <div  class="prism-player" id="J_prismPlayer" style=""></div>
     <div class="play-tools">
         <ul>
@@ -20,29 +21,70 @@ import VideoRelated from './small/VideoRelated'
 export default {
     data() {
         return {
-            
+            courseId: '',
+            subClassify: '',
+            sectionId: '',
+            courseSection: '',
+            videoUrl: ''
         }
     },
     components: {
         Icon, VideoRelated
     },
     mounted() {
-        this.initPlayer();
+        this.getQuery();
+        this.getInitData();
+    },
+    watch: {
+        videoUrl: function() {
+            this.initPlayer(this.videoUrl);
+        }
     },
     methods: {
-        initPlayer() {
+        getQuery(){
+            let url = location.href;
+            let index = url.indexOf('?');
+            let query = url.slice(index+1);
+            let courIdIndex = query.indexOf('courseId=');
+            let secIdIndex = query.indexOf('sectionId=');
+            let andSignFirst = query.indexOf('&');
+            let andSignLast = query.lastIndexOf('&');
+            let courId = query.slice(courIdIndex+9, andSignFirst);
+            let secId = secIdIndex = query.slice(secIdIndex+10, andSignLast);
+            let subIndex = query.indexOf('subClassify');
+            let subClassify = query.slice(subIndex+12, query.length);
+            this.courseId = courId;
+            this.subClassify = subClassify;
+            this.sectionId = secId;
+        },
+        getInitData() {
+            let self = this;
+            $.ajax({
+                type: 'GET',
+                url: `http://39.108.152.157:8080/course/${this.courseId}/${this.sectionId}?subClassify=${this.subClassify}`
+            }).done(function(res) {
+                if (res.code === 200) {
+                    let data = res.data;
+                    if (data) {
+                        self.courseSection = data.courseSection;
+                        self.videoUrl = data.courseSection.videoUrl;
+                    }
+                }
+            })
+        },
+        initPlayer(url) {
             // 初始化播放器
             var player = new Aliplayer({
             id: "J_prismPlayer",
                  autoplay: true,
-                 isLive:true,
+                 isLive:false,
                  playsinline:true,
                  width:"1214px",
                  height:"600px",
                  controlBarVisibility:"always",
                  useH5Prism:false,
                  useFlashPrism:true,
-                 source: "http://live.liuliuliuman.top/nextu/12.flv",
+                 source: url,
                  cover:"",
                  skinLayout:[{"name":"bigPlayButton","align":"blabs","x":30,"y":80},
                         {"name":"H5Loading","align":"cc"},
@@ -70,6 +112,10 @@ export default {
 <style lang="scss" scoped>
 @import '../../CSS/common.scss';
 @import '../../CSS/colors.scss';
+.title {
+    margin: 20px 0;
+    font-size: 20px;
+}
 .videoNav {
     margin-top: 30px;
     padding-bottom: 5px;

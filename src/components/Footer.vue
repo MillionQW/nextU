@@ -6,13 +6,18 @@
             <li>地址: 广州市天河区迎福路527号</li>
             <li>邮编： 510520</li>
             <li>邮箱： webmaster@pku.edu</li>
+            <li><a :href="aboutUrl" class="aboutUs" target="_blank">关于我们</a></li>
         </ul>
     </div>
 </footer>
 </template>
 <script>
 export default {
-
+    data() {
+        return {
+            aboutUrl: window["_CONFIG"]["ABOUT"]
+        }
+    }
 }
 </script>
 <style lang="scss">
@@ -43,5 +48,8 @@ footer {
 
 li:last-child {
     border-right: 0;
+}
+.aboutUs {
+    color: #fff;
 }
 </style>
